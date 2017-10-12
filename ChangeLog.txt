@@ -1,0 +1,91 @@
+/*
+ * $Id$
+ */
+
+/* Use this format for the entry headers:
+ * YYYY-MM-DD HH:MM UTC[-|+]hhmm Your Name or Username and/or <your_email@address>
+ * For example:
+ * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
+ */
+
+2017-10-12 20:33 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   + distros/ChangeLog.txt
+   * Moved to standalone repository.
+
+2017-08-26 00:17 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeExclude.txt
+     + Added file.
+
+2017-08-22 21:10 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     * Ignore harbour's uninstall.exe
+   * distros/MakeExclude.txt
+     + Some files.
+
+2017-07-09 18:45 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     * Updated.
+
+2016-11-02 10:26 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     + /L switch to skip the build of the IDE.
+
+2016-10-25 18:37 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     + Class TANIGIF.
+
+2016-08-14 20:37 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     + Missing parameters for BCC32 compilator.
+
+2016-07-23 13:27 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     ! Typo.
+     * Do not use fixed folders for compilers.
+
+2016-06-19 10:20 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     * Ide's rc is now at the top of temporay rc file.
+
+2015-12-28 19:38 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     % Copy newer files only.
+
+ 2015-11-07 19:38 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+   * distros/MakeExclude.txt
+     + Bos Taurus graphic library by Claudio Soto.
+     * Folder for xHarbour to "xhbcc".
+
+2015-04-13 18:15 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     * Copy only newer files if working folder is not empty.
+
+2015-03-19 21:00 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/hb32mingw.iss
+     + Support for multiple paths to files.
+     ! Wrong name in Windows Start Menu.
+     ! File's CVS Id.
+     ! Missing OOHG icon.
+     ! Missing license, before and after files.
+   * distros/hb30mingw.iss
+   * distros/xhbbcc.iss
+     + Support for multiple paths to files.
+     ! Wrong name in Windows Start Menu.
+   * distros/infoafter_bcc.txt
+   * distros/infoafter_mingw.txt
+     * Improved messages.
+
+2015-03-18 20:57 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   + distros/MakeDistro.bat
+   + distros/MakeExclude.txt
+     ; To build a distro.
+   + distros/hb30mingw.iss
+   + distros/hb32mingw.iss
+   + distros/xhbbcc.iss
+     ; To create installer exes using INNO Setup 5.5.5
+   + distros/infoafter_bcc.txt
+   + distros/infoafter_mingw.txt
+   + distros/infobefore.txt
+   + distros/license.txt
+     ; To customize installer exes using INNO Setup 5.5.5

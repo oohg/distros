@@ -8,6 +8,11 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2017-10-17 21:50 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+   * distros/MakeExclude.txt
+     * Adapted to new structure.
+
 2017-10-15 21:16 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    + core/.gitattributes
    + core/.gitignore

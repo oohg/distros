@@ -1,6 +1,7 @@
-.cvsignore
+.gitattributes
+.gitignore
 \.hbmk\
-\cvs\
+\.git\
 \workinprogress\
 \distros\
 bostaurus.hbp

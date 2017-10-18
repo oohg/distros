@@ -150,9 +150,9 @@ if /I "%1"=="HB32" set BASE_DISTRO_SUBDIR=lib\hb\mingw
 if /I "%1"=="XB"   set BASE_DISTRO_SUBDIR=lib\xhb\bcc
 if not exist %BASE_DISTRO_SUBDIR%\nul md %BASE_DISTRO_SUBDIR%
 if not exist %BASE_DISTRO_SUBDIR%\nul goto ERROR3
-set BASE_DISTRO_SUBDIR=manual
-if not exist manual\nul md manual
-if not exist manual\nul goto ERROR3
+set BASE_DISTRO_SUBDIR=fmt
+if not exist fmt\nul md fmt
+if not exist fmt\nul goto ERROR3
 set BASE_DISTRO_SUBDIR=resources
 if not exist resources\nul md resources
 if not exist resources\nul goto ERROR3
@@ -165,22 +165,22 @@ if not exist source\nul goto ERROR3
 
 :FILES
 echo Copying %HG_ROOT%...
-xcopy %HG_ROOT%\*.* /r /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-xcopy %HG_ROOT%\compile.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\compile30.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\compile32.bat /r /y /d /q
-if /I "%1"=="XB"   xcopy %HG_ROOT%\compileXB.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\compile_mingw.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\compile_mingw.bat /r /y /d /q
-if /I "%1"=="XB"   xcopy %HG_ROOT%\compile_bcc.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\buildapp30.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\buildapp32.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\buildapp.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\buildapp.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\buildapp_hbmk2.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\buildapp_hbmk2.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\oohg.hbc /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\oohg.hbc /r /y /d /q
+xcopy %HG_ROOT%\core\*.* /r /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+xcopy %HG_ROOT%\core\compile.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\compile30.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\compile32.bat /r /y /d /q
+if /I "%1"=="XB"   xcopy %HG_ROOT%\core\compileXB.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+if /I "%1"=="XB"   xcopy %HG_ROOT%\core\compile_bcc.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\buildapp30.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\buildapp32.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\buildapp.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\buildapp.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\buildapp_hbmk2.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\buildapp_hbmk2.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
 echo.
 :DOC
 echo Copying DOC...
@@ -238,15 +238,15 @@ echo Copying INCLUDE...
 set BASE_DISTRO_SUBDIR=include
 if not exist include\nul goto ERROR5
 cd include
-xcopy %HG_ROOT%\include\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+xcopy %HG_ROOT%\core\include\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
 cd ..
 echo.
-:MANUAL
-echo Copying MANUAL...
-set BASE_DISTRO_SUBDIR=manual
-if not exist manual\nul goto ERROR5
-cd manual
-xcopy %HG_ROOT%\manual\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+:FMT
+echo Copying FMT...
+set BASE_DISTRO_SUBDIR=fmt
+if not exist fmt\nul goto ERROR5
+cd fmt
+xcopy %HG_ROOT%\fmt\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
 cd ..
 echo.
 if /I not "%1"=="HB30" goto :RESOURCES
@@ -255,13 +255,13 @@ echo Copying RESOURCES...
 set BASE_DISTRO_SUBDIR=resources
 if not exist resources\nul goto ERROR5
 cd resources
-xcopy %HG_ROOT%\resources\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-if /I "%1"=="HB30" xcopy %HG_ROOT%\resources\compileres_mingw.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\resources\compileres_mingw.bat /r /y /d /q
-if /I "%1"=="XB"   xcopy %HG_ROOT%\resources\compileres_bcc.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\resources\oohg.rc /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\resources\oohg.rc /r /y /d /q
-if /I "%1"=="XB"   xcopy %HG_ROOT%\resources\oohg_bcc.rc /r /y /d /q
+xcopy %HG_ROOT%\core\resources\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+if /I "%1"=="XB"   xcopy %HG_ROOT%\core\resources\compileres_bcc.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+if /I "%1"=="XB"   xcopy %HG_ROOT%\core\resources\oohg_bcc.rc /r /y /d /q
 cd ..
 echo.
 :SAMPLES
@@ -277,33 +277,34 @@ echo Copying SOURCE...
 set BASE_DISTRO_SUBDIR=source
 if not exist source\nul goto ERROR5
 cd source
-xcopy %HG_ROOT%\source\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\buildlib30.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\buildlib32.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\buildlib.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\buildlib.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\buildlib_hbmk2.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\buildlib_hbmk2.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\oohg.hbp /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\oohg.hbp /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\bostaurus.hbp /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\bostaurus.hbp /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\miniprint.hbp /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\miniprint.hbp /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\hbprinter.hbp /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\hbprinter.hbp /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\makelib30.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\makelib32.bat /r /y /d /q
-if /I "%1"=="HB30" xcopy %HG_ROOT%\source\makelib_mingw.bat /r /y /d /q
-if /I "%1"=="HB32" xcopy %HG_ROOT%\source\makelib_mingw.bat /r /y /d /q
-if /I "%1"=="XB"   xcopy %HG_ROOT%\source\makelibXB.bat /r /y /d /q
-if /I "%1"=="XB"   xcopy %HG_ROOT%\source\makelib_bcc.bat /r /y /d /q
+xcopy %HG_ROOT%\core\source\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\buildlib30.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\buildlib32.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\makelib30.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\makelib32.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+if /I "%1"=="XB"   xcopy %HG_ROOT%\core\source\makelibXB.bat /r /y /d /q
+if /I "%1"=="XB"   xcopy %HG_ROOT%\core\source\makelib_bcc.bat /r /y /d /q
 cd ..
 echo.
 
 :RES_FILE
 echo Compiling resource file...
 cd resources
+set HG_ROOT=%BASE_DISTRO_DIR%
 if /I "%1"=="HB30" call compileres_mingw.bat /NOCLS HB30
 if /I "%1"=="HB32" call compileres_mingw.bat /NOCLS HB32
 if /I "%1"=="XB"   call compileres_bcc.bat /NOCLS
@@ -319,7 +320,6 @@ goto END
 :LIBSHB30
 echo Building libs...
 cd source
-set HG_ROOT=%BASE_DISTRO_DIR%
 set HG_HRB=%BASE_DISTRO_DIR%\hb30
 set HG_MINGW=%BASE_DISTRO_DIR%\hb30\comp\mingw
 set LIB_GUI=lib
@@ -336,13 +336,12 @@ attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
 rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
 echo.
 cd ..
-if /I "%NOIDE%"=="T" goto END
+if /I "%NOIDE%"=="T" goto FMT_HBMK2
 goto OIDE_HBMK2
 
 :LIBSHB32
 echo Building libs...
 cd source
-set HG_ROOT=%BASE_DISTRO_DIR%
 set HG_HRB=%BASE_DISTRO_DIR%\hb32
 set HG_MINGW=%BASE_DISTRO_DIR%\hb32\comp\mingw
 set LIB_GUI=lib\hb\mingw
@@ -359,13 +358,12 @@ attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
 rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
 echo.
 cd ..
-if /I "%NOIDE%"=="T" goto END
+if /I "%NOIDE%"=="T" goto FMT_HBMK2
 goto OIDE_HBMK2
 
 :LIBSXB
 echo Building libs...
 cd source
-set HG_ROOT=%BASE_DISTRO_DIR%
 set HG_HRB=%BASE_DISTRO_DIR%\xhbcc
 set LIB_GUI=lib\xhb\bcc
 set LIB_HRB=lib
@@ -399,7 +397,7 @@ set HG_FILES2_PRG=
 set HG_FILES1_PRG=
 echo.
 cd ..
-if /I "%NOIDE%"=="T" goto END
+if /I "%NOIDE%"=="T" goto FMT_XBCC
 goto OIDE_XBCC
 
 :OIDE_HBMK2
@@ -419,11 +417,38 @@ attrib -s -h .hbmk /s /d
 rd .hbmk /s /q
 echo.
 cd ..
-goto END
+goto FMT_HBMK2
 
 :OIDE_XBCC
 echo Building oIDE...
 cd ide
+call compile.bat /nocls
+echo.
+cd ..
+goto FMT_XBCC
+
+:FMT_HBMK2
+echo Building oFMT...
+cd fmt
+set TPATH=%PATH%
+set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
+echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
+copy /b ofmt.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
+windres -i _temp.rc -o _temp.o
+hbmk2 ofmt.hbp %HG_ROOT%\oohg.hbc
+del _oohg_resconfig.h /q
+del _temp.* /q
+set PATH=%TPATH%
+set TPATH=
+attrib -s -h .hbmk /s /d
+rd .hbmk /s /q
+echo.
+cd ..
+goto END
+
+:FMT_XBCC
+echo Building oFMT...
+cd fmt
 call compile.bat /nocls
 echo.
 cd ..

@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2017-10-23 22:17 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     ! ofmt building process.
+   * distros/MakeExclude.txt
+     + Added more files.
+
 2017-10-17 21:50 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/MakeDistro.bat
    * distros/MakeExclude.txt

@@ -31,11 +31,15 @@ makelib30.bat
 makelib32.bat
 makelibXB.bat
 miniprint.hbp
+myb.bat
+myc.bat
 oohg.hbc
 oohg.hbp
 oohg.log
 oohg.chw
+oohg_license_template.txt
 output.log
+page_template.htm
 thumbs.db
 xhbcc.bat
 xml.bat

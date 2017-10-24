@@ -247,6 +247,11 @@ set BASE_DISTRO_SUBDIR=fmt
 if not exist fmt\nul goto ERROR5
 cd fmt
 xcopy %HG_ROOT%\fmt\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+if /I "%1"=="HB30" xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
+if /I "%1"=="HB30" xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
+if /I "%1"=="HB32" xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
+if /I "%1"=="XB"   xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
 cd ..
 echo.
 if /I not "%1"=="HB30" goto :RESOURCES
@@ -433,15 +438,15 @@ cd fmt
 set TPATH=%PATH%
 set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
 echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
-copy /b ofmt.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
+copy /b %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 windres -i _temp.rc -o _temp.o
 hbmk2 ofmt.hbp %HG_ROOT%\oohg.hbc
 del _oohg_resconfig.h /q
 del _temp.* /q
 set PATH=%TPATH%
 set TPATH=
-attrib -s -h .hbmk /s /d
-rd .hbmk /s /q
+if exist .hbmk\nul attrib -s -h .hbmk /s /d
+if exist .hbmk\nul rd .hbmk /s /q
 echo.
 cd ..
 goto END

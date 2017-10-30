@@ -182,6 +182,7 @@ rem
    echo Copying %HG_ROOT%...
    xcopy %HG_ROOT%\core\*.* /r /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
    xcopy %HG_ROOT%\core\compile.bat /r /y /d /q
+   xcopy %HG_ROOT%\core\oohgaux.bat /r /y /d /q
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\compile30.bat /r /y /d /q
    if /I "%1"=="HB32" xcopy %HG_ROOT%\core\compile32.bat /r /y /d /q
    if /I "%1"=="XB"   xcopy %HG_ROOT%\core\compileXB.bat /r /y /d /q

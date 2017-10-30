@@ -413,7 +413,7 @@ set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
 echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
 copy /b mgide.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 windres -i _temp.rc -o _temp.o
-hbmk2 mgide.hbp %HG_ROOT%\oohg.hbc
+hbmk2 mgide.hbp
 del _oohg_resconfig.h /q
 del _temp.* /q
 set PATH=%TPATH%
@@ -440,7 +440,7 @@ set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
 echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
 copy /b %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 windres -i _temp.rc -o _temp.o
-hbmk2 ofmt.hbp %HG_ROOT%\oohg.hbc
+hbmk2 ofmt.hbp
 del _oohg_resconfig.h /q
 del _temp.* /q
 set PATH=%TPATH%

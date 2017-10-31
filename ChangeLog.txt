@@ -8,6 +8,11 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2017-10-30 21:30 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/MakeDistro.bat
+     * Format.
+     ; Thanks to José M. C. Quintas.
+
 2017-10-30 18:42 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/ChangeLog.txt
      * Updated.

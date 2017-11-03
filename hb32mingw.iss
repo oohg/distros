@@ -1,4 +1,4 @@
-; $Id: hb32mingw.iss,v 1.2 2015-03-20 00:00:42 fyurisich Exp $
+; $Id: hb32mingw.iss $
 
 #define MyAppName "Object Oriented Harbour GUI"
 #define MyAppVerH "HB32"

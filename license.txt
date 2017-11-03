@@ -5,7 +5,7 @@ OOHG is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY
 
 See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this software (see file COPYING in the installation folder).
+You should have received a copy of the GNU General Public License along with this software (see file LICENSE.txt in the installation folder).
 
 If not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,USA (or download from http://www.gnu.org/licenses/).
 

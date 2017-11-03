@@ -1,6 +1,6 @@
 @echo off
 rem
-rem $Id: MakeDistro.bat,v 1.11 2017-08-23 00:10:48 fyurisich Exp $
+rem $Id: MakeDistro.bat $
 rem
 
 :MAIN
@@ -182,7 +182,6 @@ rem
    echo Copying %HG_ROOT%...
    xcopy %HG_ROOT%\core\*.* /r /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
    xcopy %HG_ROOT%\core\compile.bat /r /y /d /q
-   xcopy %HG_ROOT%\core\oohgaux.bat /r /y /d /q
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\compile30.bat /r /y /d /q
    if /I "%1"=="HB32" xcopy %HG_ROOT%\core\compile32.bat /r /y /d /q
    if /I "%1"=="XB"   xcopy %HG_ROOT%\core\compileXB.bat /r /y /d /q
@@ -455,7 +454,7 @@ rem
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
    copy /b mgide.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
    windres -i _temp.rc -o _temp.o
-   hbmk2 mgide.hbp
+   hbmk2 mgide.hbp _temp.o
    del _oohg_resconfig.h /q
    del _temp.* /q
    set PATH=%TPATH%

@@ -1,5 +1,5 @@
 /*
- * $Id$
+ * $Id:$
  */
 
 /* Use this format for the entry headers:
@@ -7,6 +7,23 @@
  * For example:
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
+
+2017-11-02 21:29 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/ChangeLog.txt
+     * Updated.
+   * distros/hb30mingw.iss
+     * Id.
+   * distros/hb32mingw.iss
+     * Id.
+   * distros/infobefore.txt
+     * Address of support site.
+   * distros/license.txt
+     * COPYING replaced by LICENSE.txt
+   * distros/MakeDistro.bat
+     * Id.
+     ! oide compilation.
+   * distros/xhbbcc.iss
+     * Id.
 
 2017-10-30 21:30 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/MakeDistro.bat

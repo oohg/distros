@@ -75,10 +75,6 @@
    * distros/MakeDistro.bat
      + /L switch to skip the build of the IDE.
 
-2016-10-25 18:37 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
-     + Class TANIGIF.
-
 2016-08-14 20:37 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/MakeDistro.bat
      + Missing parameters for BCC32 compilator.

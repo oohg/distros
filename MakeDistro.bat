@@ -481,9 +481,8 @@ rem
    set TPATH=%PATH%
    set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
-   copy /b %HG_ROOT%\resources\oohg.rc _temp.rc > nul
-   windres -i _temp.rc -o _temp.o
-   hbmk2 ofmt.hbp
+   copy /b %HG_ROOT%\resources\oohg.rc + ofmt.rc _temp.rc > nul
+   hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc 
    del _oohg_resconfig.h /q
    del _temp.* /q
    set PATH=%TPATH%

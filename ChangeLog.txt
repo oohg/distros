@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2017-11-15 21:24 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/ChangeLog.txt
+     * Updated.
+   * distros/MakeDistro.bat
+     + Support for ofmt.rc file.
+
 2017-11-02 21:29 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/ChangeLog.txt
      * Updated.

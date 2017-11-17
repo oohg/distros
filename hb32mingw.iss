@@ -6,7 +6,7 @@
 #define MyAppVerDate GetDateTimeString('yyyy/mm/dd', '.', ':');
 #define MyDateOBF GetDateTimeString('yyyy/mm/dd', '_', ':');
 #define MyAppPublisher "The OOHG Team"
-#define MyAppURL "https://sourceforge.net/projects/oohg/"
+#define MyAppURL "https://oohg.github.io/"
 #if DirExists('W:\OOHG_HB32')
    #define MySource "W:\OOHG_HB32\*"
 #elif DirExists('D:\OOHG_HB32')

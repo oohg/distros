@@ -1,0 +1,5 @@
+\zebra\
+bostaurus\s001.bat
+bostaurus\s001.prg
+bostaurus\s014.bat
+bostaurus\s014.prg

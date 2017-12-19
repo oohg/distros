@@ -8,6 +8,15 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2017-12-19 17:57 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/ChangeLog.txt
+     * Updated.
+   * distros/MakeDistro.bat
+   * distros/MakeExclude.txt
+     * Exclude spanish folder.
+   + distros/MakeExclude30.txt
+     * Samples to exclude on hb30 builds.
+
 2017-11-17 20:46 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/ChangeLog.txt
      * Updated.

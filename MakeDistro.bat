@@ -65,13 +65,6 @@ rem
    echo.
    goto END
 
-:ERROR7
-
-   echo.
-   echo Can't run because CMD extensions are not enabled !!!
-   echo.
-   goto END
-
 :CONTINUE
 
    rem Change these sets to use different sources for OOHG, Harbour and MinGW
@@ -188,12 +181,12 @@ rem
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
    if /I "%1"=="HB32" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
    if /I "%1"=="XB"   xcopy %HG_ROOT%\core\compile_bcc.bat /r /y /d /q
-   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\buildapp30.bat /r /y /d /q
-   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\buildapp32.bat /r /y /d /q
-   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\buildapp.bat /r /y /d /q
-   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\buildapp.bat /r /y /d /q
-   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\buildapp_hbmk2.bat /r /y /d /q
-   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\buildapp_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\BuildApp30.bat /r /y /d /q
+   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\BuildApp32.bat /r /y /d /q
+   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
+   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
+   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
    if /I "%1"=="HB32" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
    echo.
@@ -204,13 +197,15 @@ rem
    set BASE_DISTRO_SUBDIR=doc
    if not exist doc\nul goto ERROR5
    cd doc
-   xcopy %HG_ROOT%\doc\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+   xcopy %HG_ROOT%\doc\english\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+REM TODO: Add manual's build here
+   xcopy %HG_ROOT%\doc\manual\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
    cd ..
    echo.
 
 :HB30
 
-   if /I not "%1"=="HB30" goto :HB32
+   if /I not "%1"=="HB30" goto HB32
    echo Copying HB30...
    set BASE_DISTRO_SUBDIR=hb30
    if not exist hb30\nul goto ERROR5
@@ -222,7 +217,7 @@ rem
 
 :HB32
 
-   if /I not "%1"=="HB32" goto :XB
+   if /I not "%1"=="HB32" goto XB
    echo Copying HB32...
    set BASE_DISTRO_SUBDIR=hb32
    if not exist hb32\nul goto ERROR5
@@ -234,7 +229,7 @@ rem
 
 :XB
 
-   if /I not "%1"=="XB" goto :IDE
+   if /I not "%1"=="XB" goto IDE
    echo Copying xHarbour...
    set BASE_DISTRO_SUBDIR=xhbcc
    if not exist xhbcc\nul goto ERROR5
@@ -283,7 +278,7 @@ rem
    if /I "%1"=="XB"   xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
    cd ..
    echo.
-   if /I not "%1"=="HB30" goto :RESOURCES
+   if /I not "%1"=="HB30" goto RESOURCES
 
 :RESOURCES
 
@@ -307,7 +302,7 @@ rem
    set BASE_DISTRO_SUBDIR=samples
    if not exist samples\nul goto ERROR5
    cd samples
-   xcopy %HG_ROOT%\samples\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
+   xcopy %HG_ROOT%\samples\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt+%HG_ROOT%\distros\MakeExclude30.txt
    cd ..
    echo.
 
@@ -318,8 +313,8 @@ rem
    if not exist source\nul goto ERROR5
    cd source
    xcopy %HG_ROOT%\core\source\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\buildlib30.bat /r /y /d /q
-   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\buildlib32.bat /r /y /d /q
+   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\BuildLib30.bat /r /y /d /q
+   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\BuildLib32.bat /r /y /d /q
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
    if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
@@ -332,11 +327,11 @@ rem
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
    if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
-   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\makelib30.bat /r /y /d /q
-   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\makelib32.bat /r /y /d /q
+   if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\MakeLib30.bat /r /y /d /q
+   if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\MakeLib32.bat /r /y /d /q
    if /I "%1"=="HB30" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
    if /I "%1"=="HB32" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
-   if /I "%1"=="XB"   xcopy %HG_ROOT%\core\source\makelibXB.bat /r /y /d /q
+   if /I "%1"=="XB"   xcopy %HG_ROOT%\core\source\MakeLibXB.bat /r /y /d /q
    if /I "%1"=="XB"   xcopy %HG_ROOT%\core\source\makelib_bcc.bat /r /y /d /q
    cd ..
    echo.

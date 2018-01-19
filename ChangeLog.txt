@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2018-01-18 21:28 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros/ChangeLog.txt
+     * Updated.
+   * distros/MakeDistro.bat
+     * Skip FMT building when using /L switch.
+
 2017-12-19 17:57 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/ChangeLog.txt
      * Updated.

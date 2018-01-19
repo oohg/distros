@@ -374,7 +374,7 @@ REM TODO: Add manual's build here
    rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
    echo.
    cd ..
-   if /I "%NOIDE%"=="T" goto FMT_HBMK2
+   if /I "%NOIDE%"=="T" goto END
    goto OIDE_HBMK2
 
 :LIBSHB32
@@ -397,7 +397,7 @@ REM TODO: Add manual's build here
    rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
    echo.
    cd ..
-   if /I "%NOIDE%"=="T" goto FMT_HBMK2
+   if /I "%NOIDE%"=="T" goto END
    goto OIDE_HBMK2
 
 :LIBSXB

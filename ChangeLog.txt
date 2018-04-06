@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2018-04-06 20:22 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\ChangeLog.txt
+     * Updated.
+   * distros/infobefore.txt
+     * Changed reference to user's group.
+
 2018-01-18 21:28 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros/ChangeLog.txt
      * Updated.

@@ -6,7 +6,7 @@ OOHG (an acronym of Object Oriented Harbour GUI) is an, easy to use, completely 
 * (x)Harbour Compiler for compiling xBase code into C code
 * C Compiler (MinGW or BCC) for compiling C code and linking into an exe.
 * Project support site at https://oohg.github.io
-* User support mail list at <oohg-subscribe@yahoogroups.com>
+* User support mail list at <https://groups.google.com/d/forum/oohg>
 
 Enjoy the Power of OOHG !!!
 

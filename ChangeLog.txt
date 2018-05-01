@@ -8,160 +8,164 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2018-04-30 22:11 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\ChangeLog.txt
+     * Changed slash by backslash.
+
 2018-04-06 20:22 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\ChangeLog.txt
      * Updated.
-   * distros/infobefore.txt
+   * distros\infobefore.txt
      * Changed reference to user's group.
 
 2018-01-18 21:28 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/ChangeLog.txt
+   * distros\ChangeLog.txt
      * Updated.
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      * Skip FMT building when using /L switch.
 
 2017-12-19 17:57 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/ChangeLog.txt
+   * distros\ChangeLog.txt
      * Updated.
-   * distros/MakeDistro.bat
-   * distros/MakeExclude.txt
+   * distros\MakeDistro.bat
+   * distros\MakeExclude.txt
      * Exclude spanish folder.
-   + distros/MakeExclude30.txt
+   + distros\MakeExclude30.txt
      * Samples to exclude on hb30 builds.
 
 2017-11-17 20:46 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/ChangeLog.txt
+   * distros\ChangeLog.txt
      * Updated.
-   * distros/hb30mingw.iss
-   * distros/hb32mingw.iss
-   * distros/xhbbcc.iss
+   * distros\hb30mingw.iss
+   * distros\hb32mingw.iss
+   * distros\xhbbcc.iss
      * References to sourceforge changed to github.
 
 2017-11-15 21:24 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/ChangeLog.txt
+   * distros\ChangeLog.txt
      * Updated.
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      + Support for ofmt.rc file.
 
 2017-11-02 21:29 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/ChangeLog.txt
+   * distros\ChangeLog.txt
      * Updated.
-   * distros/hb30mingw.iss
+   * distros\hb30mingw.iss
      * Id.
-   * distros/hb32mingw.iss
+   * distros\hb32mingw.iss
      * Id.
-   * distros/infobefore.txt
+   * distros\infobefore.txt
      * Address of support site.
-   * distros/license.txt
+   * distros\license.txt
      * COPYING replaced by LICENSE.txt
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      * Id.
      ! oide compilation.
-   * distros/xhbbcc.iss
+   * distros\xhbbcc.iss
      * Id.
 
 2017-10-30 21:30 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      * Format.
      ; Thanks to José M. C. Quintas.
 
 2017-10-30 18:42 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/ChangeLog.txt
+   * distros\ChangeLog.txt
      * Updated.
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      - Uneeded options.
-   * distros/MakeExclude.txt
+   * distros\MakeExclude.txt
      + Added more files.
 
 2017-10-23 22:17 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      ! ofmt building process.
-   * distros/MakeExclude.txt
+   * distros\MakeExclude.txt
      + Added more files.
 
 2017-10-17 21:50 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
-   * distros/MakeExclude.txt
+   * distros\MakeDistro.bat
+   * distros\MakeExclude.txt
      * Adapted to new structure.
 
 2017-10-15 21:16 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   + core/.gitattributes
-   + core/.gitignore
+   + distros\.gitattributes
+   + distros\.gitignore
 
 2017-10-12 20:33 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   + distros/ChangeLog.txt
+   + distros\ChangeLog.txt
    * Moved to standalone repository.
 
 2017-08-26 00:17 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeExclude.txt
+   * distros\MakeExclude.txt
      + Added file.
 
 2017-08-22 21:10 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      * Ignore harbour's uninstall.exe
-   * distros/MakeExclude.txt
+   * distros\MakeExclude.txt
      + Some files.
 
 2017-07-09 18:45 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      * Updated.
 
 2016-11-02 10:26 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      + /L switch to skip the build of the IDE.
 
 2016-08-14 20:37 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      + Missing parameters for BCC32 compilator.
 
 2016-07-23 13:27 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      ! Typo.
      * Do not use fixed folders for compilers.
 
 2016-06-19 10:20 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      * Ide's rc is now at the top of temporay rc file.
 
 2015-12-28 19:38 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      % Copy newer files only.
 
  2015-11-07 19:38 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
-   * distros/MakeExclude.txt
+   * distros\MakeDistro.bat
+   * distros\MakeExclude.txt
      + Bos Taurus graphic library by Claudio Soto.
      * Folder for xHarbour to "xhbcc".
 
 2015-04-13 18:15 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/MakeDistro.bat
+   * distros\MakeDistro.bat
      * Copy only newer files if working folder is not empty.
 
 2015-03-19 21:00 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   * distros/hb32mingw.iss
+   * distros\hb32mingw.iss
      + Support for multiple paths to files.
      ! Wrong name in Windows Start Menu.
      ! File's CVS Id.
      ! Missing OOHG icon.
      ! Missing license, before and after files.
-   * distros/hb30mingw.iss
-   * distros/xhbbcc.iss
+   * distros\hb30mingw.iss
+   * distros\xhbbcc.iss
      + Support for multiple paths to files.
      ! Wrong name in Windows Start Menu.
-   * distros/infoafter_bcc.txt
-   * distros/infoafter_mingw.txt
+   * distros\infoafter_bcc.txt
+   * distros\infoafter_mingw.txt
      * Improved messages.
 
 2015-03-18 20:57 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
-   + distros/MakeDistro.bat
-   + distros/MakeExclude.txt
+   + distros\MakeDistro.bat
+   + distros\MakeExclude.txt
      ; To build a distro.
-   + distros/hb30mingw.iss
-   + distros/hb32mingw.iss
-   + distros/xhbbcc.iss
+   + distros\hb30mingw.iss
+   + distros\hb32mingw.iss
+   + distros\xhbbcc.iss
      ; To create installer exes using INNO Setup 5.5.5
-   + distros/infoafter_bcc.txt
-   + distros/infoafter_mingw.txt
-   + distros/infobefore.txt
-   + distros/license.txt
+   + distros\infoafter_bcc.txt
+   + distros\infoafter_mingw.txt
+   + distros\infobefore.txt
+   + distros\license.txt
      ; To customize installer exes using INNO Setup 5.5.5

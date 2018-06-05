@@ -415,7 +415,7 @@ REM TODO: Add manual's build here
    %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %OOHG_X_FLAGS%
    echo BCC32: Compiling...
    set OOHG_X_FLAGS=-c -O2 -tW -tWM -d -a8 -OS -5 -6 -w -I%HG_HRB%\include;%HG_BCC%\include;%HG_ROOT%\include; -L%HG_HRB%\%LIB_HRB%;%HG_BCC%\lib; -D__XHARBOUR__
-   set HG_FILES_C=c_media c_controlmisc c_resource c_cursor c_font c_dialogs c_windows c_image c_msgbox c_progressbar c_winapimisc c_scrsaver c_graph c_activex c_gdiplus
+   set HG_FILES_C=c_media c_controlmisc c_resource c_cursor c_font c_dialogs c_windows c_image c_msgbox c_winapimisc c_scrsaver c_graph c_activex c_gdiplus
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% miniprint winprint bostaurus ) do %HG_BCC%\bin\bcc32 %OOHG_X_FLAGS% %%a.c > nul
    echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\oohg.lib...
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% ) do %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg +%%a.obj /P32 > nul

@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2018-06-05 13:53 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\ChangeLog.txt
+     * Updated.
+   * distros\MakeDistro.bat
+     - c_progressbar.c
+
 2018-04-30 22:11 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\ChangeLog.txt
      * Changed slash by backslash.

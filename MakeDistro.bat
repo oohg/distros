@@ -368,7 +368,14 @@ REM TODO: Add manual's build here
    set LIB_GUI=lib
    set BIN_HRB=bin
    set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
+   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
+   if /I "%INCRE%"=="T" goto BUILD_LIBSHB30
+   if not exist %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk\nul goto BUILD_LIBSHB30
+   attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
+   rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
+
+:BUILD_LIBSHB30
+
    hbmk2 oohg.hbp
    hbmk2 bostaurus.hbp
    hbmk2 miniprint.hbp
@@ -394,7 +401,14 @@ REM TODO: Add manual's build here
    set LIB_GUI=lib\hb\mingw
    set BIN_HRB=bin
    set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
+   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
+   if /I "%INCRE%"=="T" goto BUILD_LIBSHB32
+   if not exist %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk\nul goto BUILD_LIBSHB32
+   attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
+   rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
+
+:BUILD_LIBSHB32
+
    hbmk2 oohg.hbp
    hbmk2 bostaurus.hbp
    hbmk2 miniprint.hbp

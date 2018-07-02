@@ -8,6 +8,13 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2018-07-01 22:21 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\ChangeLog.txt
+     * Updated.
+   * distros\MakeDistro.bat
+     + /I switch to enabled incremental building.
+       Do not use to build public releases.
+
 2018-06-28 19:18 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\ChangeLog.txt
      * Updated.

@@ -10,11 +10,12 @@ rem
    if /I "%1"=="HB32" goto CONTINUE
    if /I "%1"=="XB"   goto CONTINUE
    echo.
-   echo Usage: MakeDistro HarbourVersion [ /C ] [ /L ]
+   echo Usage: MakeDistro HarbourVersion [ /C ] [ /L ] [ /I ]
    echo where
-   echo /L means build libraries only, /C requests the
-   echo erase of the destination folder before making the
-   echo distro and HarbourVersion is one of the following
+   echo /L means build libraries only
+   echo /C means erase destination folder before building
+   echo /I means use incremental building
+   echo HarbourVersion is one of the following
    echo   HB30 - Harbour 3.0 and MinGW
    echo   HB32 - Harbour 3.2 and MinGW
    echo   XB   - xHarbour and BCC
@@ -125,6 +126,10 @@ rem
    set NOIDE=F
    if /I "%2"=="/L" set NOIDE=T
    if /I "%3"=="/L" set NOIDE=T
+   set INCRE=F
+   if /I "%2"=="/I" set INCRE=T
+   if /I "%3"=="/I" set INCRE=T
+   if /I "%4"=="/I" set INCRE=T
 
 :CREATE
 
@@ -370,8 +375,11 @@ REM TODO: Add manual's build here
    hbmk2 hbprinter.hbp
    set PATH=%TPATH%
    set TPATH=
+   if /I "%INCRE%"=="T" goto REST_LIBSHB30
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
    rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
+
+:REST_LIBSHB30
    echo.
    cd ..
    if /I "%NOIDE%"=="T" goto END
@@ -393,8 +401,11 @@ REM TODO: Add manual's build here
    hbmk2 hbprinter.hbp
    set PATH=%TPATH%
    set TPATH=
+   if /I "%INCRE%"=="T" goto REST_LIBSHB32
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
    rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
+
+:REST_LIBSHB32
    echo.
    cd ..
    if /I "%NOIDE%"=="T" goto END

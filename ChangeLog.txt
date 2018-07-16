@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2018-07-16 18:28 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\ChangeLog.txt
+     * Updated.
+   * distros\MakeDistro.bat
+     ! /S switch to silence beeps when building.
+
 2018-07-01 22:44 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\ChangeLog.txt
      * Updated.

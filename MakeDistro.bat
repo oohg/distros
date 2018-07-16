@@ -10,11 +10,13 @@ rem
    if /I "%1"=="HB32" goto CONTINUE
    if /I "%1"=="XB"   goto CONTINUE
    echo.
-   echo Usage: MakeDistro HarbourVersion [ /C ] [ /L ] [ /I ]
+   echo Usage: MakeDistro HarbourVersion [ /C ] [ /L ] [ /I ] [ /S ]
    echo where
    echo /L means build libraries only
    echo /C means erase destination folder before building
    echo /I means use incremental building
+   echo /S don't beep on exit
+   echo ( note that the order of the switchs if relevant )
    echo HarbourVersion is one of the following
    echo   HB30 - Harbour 3.0 and MinGW
    echo   HB32 - Harbour 3.2 and MinGW
@@ -130,6 +132,11 @@ rem
    if /I "%2"=="/I" set INCRE=T
    if /I "%3"=="/I" set INCRE=T
    if /I "%4"=="/I" set INCRE=T
+   set BEEP=
+   if /I "%2"=="/S" set BEEP=-beep-
+   if /I "%3"=="/S" set BEEP=-beep-
+   if /I "%4"=="/S" set BEEP=-beep-
+   if /I "%5"=="/S" set BEEP=-beep-
 
 :CREATE
 
@@ -376,10 +383,10 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHB30
 
-   hbmk2 oohg.hbp
-   hbmk2 bostaurus.hbp
-   hbmk2 miniprint.hbp
-   hbmk2 hbprinter.hbp
+   hbmk2 oohg.hbp %BEEP%
+   hbmk2 bostaurus.hbp %BEEP%
+   hbmk2 miniprint.hbp %BEEP%
+   hbmk2 hbprinter.hbp %BEEP%
    set PATH=%TPATH%
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHB30
@@ -409,10 +416,10 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHB32
 
-   hbmk2 oohg.hbp
-   hbmk2 bostaurus.hbp
-   hbmk2 miniprint.hbp
-   hbmk2 hbprinter.hbp
+   hbmk2 oohg.hbp %BEEP%
+   hbmk2 bostaurus.hbp %BEEP%
+   hbmk2 miniprint.hbp %BEEP%
+   hbmk2 hbprinter.hbp %BEEP%
    set PATH=%TPATH%
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHB32
@@ -474,7 +481,7 @@ REM TODO: Add manual's build here
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
    copy /b mgide.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
    windres -i _temp.rc -o _temp.o
-   hbmk2 mgide.hbp _temp.o
+   hbmk2 mgide.hbp _temp.o %BEEP%
    del _oohg_resconfig.h /q
    del _temp.* /q
    set PATH=%TPATH%
@@ -502,7 +509,7 @@ REM TODO: Add manual's build here
    set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
    copy /b %HG_ROOT%\resources\oohg.rc + ofmt.rc _temp.rc > nul
-   hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc 
+   hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP%
    del _oohg_resconfig.h /q
    del _temp.* /q
    set PATH=%TPATH%

@@ -8,6 +8,10 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2018-10-16 18:20 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     - Reference to h_font.prg
+
 2018-07-16 18:28 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\ChangeLog.txt
      * Updated.

@@ -128,10 +128,13 @@ rem
    set NOIDE=F
    if /I "%2"=="/L" set NOIDE=T
    if /I "%3"=="/L" set NOIDE=T
+   if /I "%4"=="/L" set NOIDE=T
+   if /I "%5"=="/L" set NOIDE=T
    set INCRE=F
    if /I "%2"=="/I" set INCRE=T
    if /I "%3"=="/I" set INCRE=T
    if /I "%4"=="/I" set INCRE=T
+   if /I "%5"=="/I" set INCRE=T
    set BEEP=
    if /I "%2"=="/S" set BEEP=-beep-
    if /I "%3"=="/S" set BEEP=-beep-

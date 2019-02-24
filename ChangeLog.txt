@@ -8,6 +8,17 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2019-01-24 01:18 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\infobefore.txt
+     ! Typo.
+   * distros\MakeDistro.bat
+     + Support for Viktor Szakats Harbour 3.4 + MinGW clang
+       compiler (HM34).
+     + Support for xHarbour + MinGW gcc compiler (XM).
+     * HB30 and HB32 switches changed to HM30 and HM32.
+   * distros\MakeExclude.txt
+     + Some files.
+
 2019-01-17 21:22 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      ! Switches.

@@ -1,5 +1,5 @@
 
-OOHG (an acronym of Object Oriented Harbour GUI) is an, easy to use, completely free, object oriented xBase development system for Windows, based on these tools:
+OOHG -an acronym of Object Oriented (x)Harbour GUI- is an, easy to use, completely free, object oriented xBase development system for Windows, based on these tools:
 
 * OOHG libraries and preprocessor directives for defining GUI components.
 * OOHG IDE+ for defining windows interactively.

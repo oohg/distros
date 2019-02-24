@@ -2,6 +2,7 @@
 .gitignore
 \.hbmk\
 \.git\
+\.github\
 \workinprogress\
 \distros\
 \doc\spanish\
@@ -10,17 +11,21 @@ buildapp.bat
 buildapp_hbmk2.bat
 buildapp30.bat
 buildapp32.bat
+buildapp34.bat
 buildlib.bat
 buildlib_hbmk2.bat
 buildlib30.bat
 buildlib32.bat
+buildlib34.bat
 compile_bcc.bat
 compile_mingw.bat
 compile_pc.bat
 compile_vc.bat
 compile30.bat
 compile32.bat
+compile34.bat
 compileXB.bat
+compileXM.bat
 compres.bat
 hbprinter.hbp
 hmi.ini
@@ -30,7 +35,9 @@ makelib_pc.bat
 makelib_vc.bat
 makelib30.bat
 makelib32.bat
+makelib34.bat
 makelibXB.bat
+makelibXM.bat
 miniprint.hbp
 myb.bat
 myc.bat
@@ -57,3 +64,4 @@ oohg.res
 oohg.o
 oohg_hb30.o
 oohg_hb32.o
+oohg_hb34.o

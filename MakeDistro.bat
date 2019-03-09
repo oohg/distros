@@ -17,8 +17,8 @@ rem
    echo /L means build libraries only
    echo /C means erase destination folder before building
    echo /I means use incremental building
-   echo /S don't beep on exit
-   echo ( note that the order of the switchs if relevant )
+   echo /S means don't beep on exit
+   echo /A means copy (x)Harbour and MinGW compilers
    echo HarbourVersion is one of the following
    echo   HM30 - Harbour 3.0 and MinGW
    echo   HM32 - Harbour 3.2 and MinGW
@@ -77,17 +77,46 @@ rem
    rem Change these sets to use different sources for OOHG, Harbour and MinGW
    if "%HG_ROOT%" == "" set HG_ROOT=C:\OOHG
 
-   if not exist %HG_ROOT%\distros\MakeExclude.txt goto ERROR2
    if /I "%1"=="HM30" if "%HG_HRB%" == ""   set HG_HRB=C:\HB30
    if /I "%1"=="HM30" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB30\COMP\MINGW
+   if /I "%1"=="HM30" if "%LIB_GUI%" == ""  set LIB_GUI=lib
+   if /I "%1"=="HM30" if "%LIB_HRB%" == ""  set LIB_HRB=lib
+   if /I "%1"=="HM30" if "%BIN_HRB%" == ""  set BIN_HRB=bin
+   if /I "%1"=="HM30" set HG_HB30=yes
+   if /I "%1"=="HM30" set HG_HB32=
+   if /I "%1"=="HM30" set HG_HB34=
+
    if /I "%1"=="HM32" if "%HG_HRB%" == ""   set HG_HRB=C:\HB32
    if /I "%1"=="HM32" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB32\COMP\MINGW
+   if /I "%1"=="HM32" if "%LIB_GUI%" == ""  set LIB_GUI=lib\hb\mingw
+   if /I "%1"=="HM32" if "%LIB_HRB%" == ""  set LIB_HRB=lib\win\mingw
+   if /I "%1"=="HM32" if "%BIN_HRB%" == ""  set BIN_HRB=bin
+   if /I "%1"=="HM32" set HG_HB30=
+   if /I "%1"=="HM32" set HG_HB32=yes
+   if /I "%1"=="HM32" set HG_HB34=
+
    if /I "%1"=="HM34" if "%HG_HRB%" == ""   set HG_HRB=C:\HB34
    if /I "%1"=="HM34" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB34\COMP\MINGW
+   if /I "%1"=="HM34" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb34\mingw
+   if /I "%1"=="HM34" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\clang
+   if /I "%1"=="HM34" if "%BIN_HRB%"  == "" set BIN_HRB=bin
+   if /I "%1"=="HM34" set HG_HB30=
+   if /I "%1"=="HM34" set HG_HB32=
+   if /I "%1"=="HM34" set HG_HB34=yes
+
    if /I "%1"=="XB"   if "%HG_HRB%" == ""   set HG_HRB=C:\XHBCC
    if /I "%1"=="XB"   if "%HG_BCC%" == ""   set HG_BCC=C:\BORLAND\BCC55
+   if /I "%1"=="XB"   if "%LIB_GUI%"  == "" set LIB_GUI=lib\xhb\bcc
+   if /I "%1"=="XB"   if "%LIB_HRB%"  == "" set LIB_HRB=lib
+   if /I "%1"=="XB"   if "%BIN_HRB%"  == "" set BIN_HRB=bin
+
    if /I "%1"=="XM"   if "%HG_HRB%" == ""   set HG_HRB=C:\XHMINGW
    if /I "%1"=="XM"   if "%HG_MINGW%" == "" set HG_MINGW=C:\XHMINGW\COMP\MINGW
+   if /I "%1"=="XM"   if "%LIB_GUI%"  == "" set LIB_GUI=lib\xhb\mingw
+   if /I "%1"=="XM"   if "%LIB_HRB%"  == "" set LIB_HRB=lib
+   if /I "%1"=="XM"   if "%BIN_HRB%"  == "" set BIN_HRB=bin
+
+   if not exist %HG_ROOT%\distros\MakeExclude.txt goto ERROR2
 
 :DISTRO_FOLDER
 
@@ -130,26 +159,47 @@ rem
    if /I "%BASE_DISTRO_DIR%"=="Y:" goto ERROR6
    if /I "%BASE_DISTRO_DIR%"=="Z:" goto ERROR6
    if not exist %BASE_DISTRO_DIR%\nul goto CREATE
-   if /I "%2"=="/C" del /f /s /q %BASE_DISTRO_DIR%\*.* > nul
-   if /I "%2"=="/C" attrib -s -h %BASE_DISTRO_DIR%\*.* /s /d > nul
-   if /I "%2"=="/C" del /f /s /q %BASE_DISTRO_DIR%\*.* > nul
-   if /I "%2"=="/C" rd /s /q %BASE_DISTRO_DIR% > nul
-   if /I "%2"=="/C" if exist %BASE_DISTRO_DIR%\nul goto ERROR4
+
+:PARSE_SWITCHES
+
+   set CLEAN=F
+   if /I "%2"=="/C" set CLEAN=T
+   if /I "%3"=="/C" set CLEAN=T
+   if /I "%4"=="/C" set CLEAN=T
+   if /I "%5"=="/C" set CLEAN=T
+   if /I "%6"=="/C" set CLEAN=T
+   set ADDCOMPS=F
+   if /I "%2"=="/A" set ADDCOMPS=T
+   if /I "%3"=="/A" set ADDCOMPS=T
+   if /I "%4"=="/A" set ADDCOMPS=T
+   if /I "%5"=="/A" set ADDCOMPS=T
+   if /I "%6"=="/A" set ADDCOMPS=T
    set NOIDE=F
    if /I "%2"=="/L" set NOIDE=T
    if /I "%3"=="/L" set NOIDE=T
    if /I "%4"=="/L" set NOIDE=T
    if /I "%5"=="/L" set NOIDE=T
+   if /I "%6"=="/L" set NOIDE=T
    set INCRE=F
    if /I "%2"=="/I" set INCRE=T
    if /I "%3"=="/I" set INCRE=T
    if /I "%4"=="/I" set INCRE=T
    if /I "%5"=="/I" set INCRE=T
+   if /I "%6"=="/I" set INCRE=T
    set BEEP=
    if /I "%2"=="/S" set BEEP=-beep-
    if /I "%3"=="/S" set BEEP=-beep-
    if /I "%4"=="/S" set BEEP=-beep-
    if /I "%5"=="/S" set BEEP=-beep-
+   if /I "%6"=="/S" set BEEP=-beep-
+
+   if not "%CLEAN%"=="T" goto CREATE
+
+   del /f /s /q %BASE_DISTRO_DIR%\*.* > nul
+   attrib -s -h %BASE_DISTRO_DIR%\*.* /s /d > nul
+   del /f /s /q %BASE_DISTRO_DIR%\*.* > nul
+   rd /s /q %BASE_DISTRO_DIR% > nul
+   if exist %BASE_DISTRO_DIR%\nul goto ERROR4
 
 :CREATE
 
@@ -162,6 +212,7 @@ rem
    set BASE_DISTRO_SUBDIR=doc
    if not exist doc\nul md doc
    if not exist doc\nul goto ERROR3
+   if not "%ADDCOMPS%"=="T" goto FOLDERS_CONTINUE
    if /I "%1"=="HM30" set BASE_DISTRO_SUBDIR=hb30
    if /I "%1"=="HM30" if not exist hb30\nul md hb30
    if /I "%1"=="HM30" if not exist hb30\nul goto ERROR3
@@ -177,6 +228,9 @@ rem
    if /I "%1"=="XM"   set BASE_DISTRO_SUBDIR=xhmingw
    if /I "%1"=="XM"   if not exist xhmingw\nul md xhmingw
    if /I "%1"=="XM"   if not exist xhmingw\nul goto ERROR3
+
+:FOLDERS_CONTINUE
+
    set BASE_DISTRO_SUBDIR=ide
    if not exist ide\nul md ide
    if not exist ide\nul goto ERROR3
@@ -245,6 +299,10 @@ REM TODO: Add manual's build here
    cd ..
    echo.
 
+:COMPILERS
+
+   if not "%ADDCOMPS%"=="T" goto IDE
+
 :HM30
 
    if /I not "%1"=="HM30" goto HM32
@@ -254,6 +312,21 @@ REM TODO: Add manual's build here
    cd hb30
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
+   set BASE_DISTRO_SUBDIR=comp
+   if not exist comp\nul md comp
+   if not exist comp\nul goto ERROR5
+   cd comp
+   set BASE_DISTRO_SUBDIR=mingw
+   if not exist mingw\nul md mingw
+   if not exist mingw\nul goto ERROR5
+   cd mingw
+   xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
+   set HG_MINGW==%HG_HRB%\COMP\MINGW
+   cd ..
+   cd ..
    cd ..
    echo.
 
@@ -266,6 +339,21 @@ REM TODO: Add manual's build here
    cd hb32
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
+   set BASE_DISTRO_SUBDIR=comp
+   if not exist comp\nul md comp
+   if not exist comp\nul goto ERROR5
+   cd comp
+   set BASE_DISTRO_SUBDIR=mingw
+   if not exist mingw\nul md mingw
+   if not exist mingw\nul goto ERROR5
+   cd mingw
+   xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
+   set HG_MINGW==%HG_HRB%\COMP\MINGW
+   cd ..
+   cd ..
    cd ..
    echo.
 
@@ -278,6 +366,21 @@ REM TODO: Add manual's build here
    cd hb34
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
+   set BASE_DISTRO_SUBDIR=comp
+   if not exist comp\nul md comp
+   if not exist comp\nul goto ERROR5
+   cd comp
+   set BASE_DISTRO_SUBDIR=mingw
+   if not exist mingw\nul md mingw
+   if not exist mingw\nul goto ERROR5
+   cd mingw
+   xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
+   set HG_MINGW==%HG_HRB%\COMP\MINGW
+   cd ..
+   cd ..
    cd ..
    echo.
 
@@ -290,6 +393,21 @@ REM TODO: Add manual's build here
    cd xhbcc
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_BCC%" == "%HG_HRB%\COMP\BCC" cd ..
+   if /I "%HG_BCC%" == "%HG_HRB%\COMP\BCC" echo.
+   if /I "%HG_BCC%" == "%HG_HRB%\COMP\BCC" goto IDE
+   set BASE_DISTRO_SUBDIR=comp
+   if not exist comp\nul md comp
+   if not exist comp\nul goto ERROR5
+   cd comp
+   set BASE_DISTRO_SUBDIR=bcc
+   if not exist bcc\nul md bcc
+   if not exist bcc\nul goto ERROR5
+   cd bcc
+   xcopy %HG_BCC%\*.* /r /s /e /c /q /y /d
+   set HG_BCC==%HG_HRB%\COMP\BCC
+   cd ..
+   cd ..
    cd ..
    echo.
 
@@ -302,6 +420,21 @@ REM TODO: Add manual's build here
    cd xhmingw
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
+   set BASE_DISTRO_SUBDIR=comp
+   if not exist comp\nul md comp
+   if not exist comp\nul goto ERROR5
+   cd comp
+   set BASE_DISTRO_SUBDIR=mingw
+   if not exist mingw\nul md mingw
+   if not exist mingw\nul goto ERROR5
+   cd mingw
+   xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
+   set HG_MINGW==%HG_HRB%\COMP\MINGW
+   cd ..
+   cd ..
    cd ..
    echo.
 
@@ -449,10 +582,6 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set HG_HRB=%BASE_DISTRO_DIR%\hb30
-   set HG_MINGW=%BASE_DISTRO_DIR%\hb30\comp\mingw
-   set LIB_GUI=lib
-   set BIN_HRB=bin
    set TPATH=%PATH%
    set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
    if /I "%INCRE%"=="T" goto BUILD_LIBSHM30
@@ -482,10 +611,6 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set HG_HRB=%BASE_DISTRO_DIR%\hb32
-   set HG_MINGW=%BASE_DISTRO_DIR%\hb32\comp\mingw
-   set LIB_GUI=lib\hb\mingw
-   set BIN_HRB=bin
    set TPATH=%PATH%
    set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
    if /I "%INCRE%"=="T" goto BUILD_LIBSHM32
@@ -495,7 +620,7 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM32
 
-   hbmk2 oohg.hbp %BEEP%
+   hbmk2 oohg.hbp      %BEEP%
    hbmk2 bostaurus.hbp %BEEP%
    hbmk2 miniprint.hbp %BEEP%
    hbmk2 hbprinter.hbp %BEEP%
@@ -515,10 +640,6 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set HG_HRB=%BASE_DISTRO_DIR%\hb34
-   set HG_MINGW=%BASE_DISTRO_DIR%\hb34\comp\mingw
-   set LIB_GUI=lib\hb34\mingw
-   set BIN_HRB=bin
    set TPATH=%PATH%
    set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
    if /I "%INCRE%"=="T" goto BUILD_LIBSHM34
@@ -548,10 +669,6 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set HG_HRB=%BASE_DISTRO_DIR%\xhbcc
-   set LIB_GUI=lib\xhb\bcc
-   set LIB_HRB=lib
-   set BIN_HRB=bin
    echo xHarbour: Compiling sources...
    set HG_FILES1_PRG=h_error h_windows h_form h_ipaddress h_monthcal h_help h_status h_tree h_toolbar h_init h_media h_winapimisc h_slider h_button h_checkbox h_combo h_controlmisc h_datepicker h_editbox h_dialogs h_grid h_image h_label h_listbox h_menu h_msgbox h_frame h_progressbar h_radio h_spinner h_tab h_textbox h_application h_notify
    set HG_FILES2_PRG=h_graph h_richeditbox h_edit h_edit_ex h_scrsaver h_browse h_crypt h_zip h_comm h_print h_scroll h_splitbox h_progressmeter h_scrollbutton h_xbrowse h_internal h_textarray h_hotkeybox h_activex h_pdf h_hotkey h_hyperlink h_tooltip h_picture h_dll h_checklist h_timer h_cursor h_ini h_report h_registry h_anigif
@@ -610,10 +727,6 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set HG_HRB=%BASE_DISTRO_DIR%\xhmingw
-   set HG_MINGW=%BASE_DISTRO_DIR%\xhmingw\comp\mingw
-   set LIB_GUI=lib\xhb\mingw
-   set BIN_HRB=bin
    echo xHarbour: Compiling sources...
    set HG_FILES1_PRG=h_error h_windows h_form h_ipaddress h_monthcal h_help h_status h_tree h_toolbar h_init h_media h_winapimisc h_slider h_button h_checkbox h_combo h_controlmisc h_datepicker h_editbox h_dialogs h_grid h_image h_label h_listbox h_menu h_msgbox h_frame h_progressbar h_radio h_spinner h_tab h_textbox h_application h_notify
    set HG_FILES2_PRG=h_graph h_richeditbox h_edit h_edit_ex h_scrsaver h_browse h_crypt h_zip h_comm h_print h_scroll h_splitbox h_progressmeter h_scrollbutton h_xbrowse h_internal h_textarray h_hotkeybox h_activex h_pdf h_hotkey h_hyperlink h_tooltip h_picture h_dll h_checklist h_timer h_cursor h_ini h_report h_registry h_anigif
@@ -740,5 +853,18 @@ REM TODO: Add manual's build here
    goto END
 
 :END
+
+   set BASE_DISTRO_DIR=
+   set CLEAN=
+   set ADDCOMPS=
+   set NOIDE=
+   set INCRE=
+   set BEEP=
+   set BASE_DISTRO_SUBDIR=
+   set TPATH=
+   set HG_FILES1_PRG=
+   set HG_FILES2_PRG=
+   set HG_X_FLAGS=
+   set HG_FILES_C=
 
    echo End reached.

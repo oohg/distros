@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2019-03-09 15:45 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     * Use HG_* env vars instead of hardwired paths.
+     * By default (x)Harbour and C compilers are not copied to distro.
+     + /A switch to include (x)Harbour and C compilers into distro.
+
 2019-01-24 01:18 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\infobefore.txt
      ! Typo.

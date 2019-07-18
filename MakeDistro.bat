@@ -12,19 +12,19 @@ rem
    if /I "%1"=="XB"   goto CONTINUE
    if /I "%1"=="XM"   goto CONTINUE
    echo.
-   echo Usage: MakeDistro HarbourVersion [ /C ] [ /L ] [ /I ] [ /S ]
+   echo Usage: MakeDistro HarbourVersion [ /C ] [ /L ] [ /I ] [ /S ] [ /A ]
    echo where
-   echo /L means build libraries only
-   echo /C means erase destination folder before building
-   echo /I means use incremental building
-   echo /S means don't beep on exit
-   echo /A means copy (x)Harbour and MinGW compilers
    echo HarbourVersion is one of the following
    echo   HM30 - Harbour 3.0 and MinGW
    echo   HM32 - Harbour 3.2 and MinGW
    echo   HM34 - Harbour 3.4 and MinGW
    echo   XB   - xHarbour and BCC
    echo   XM   - xHarbour and MinGW
+   echo /C means erase destination folder before building
+   echo /L means build libraries only
+   echo /I means use incremental building
+   echo /S means don't beep on exit
+   echo /A means copy (x)Harbour and MinGW compilers
    echo.
    goto END
 
@@ -511,7 +511,8 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=samples
    if not exist samples\nul goto ERROR5
    cd samples
-   xcopy %HG_ROOT%\samples\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt+%HG_ROOT%\distros\MakeExclude30.txt
+   if /I "%1"=="HM30" xcopy %HG_ROOT%\samples\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt+%HG_ROOT%\distros\MakeExclude30.txt
+   if /I not "%1"=="HM30" xcopy %HG_ROOT%\samples\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
    cd ..
    echo.
 

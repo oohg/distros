@@ -8,6 +8,11 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2019-07-18 20:43 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     ! Help message.
+     ! Samples exclusion.
+
 2019-03-09 15:45 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      * Use HG_* env vars instead of hardwired paths.

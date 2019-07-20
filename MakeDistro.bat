@@ -158,7 +158,6 @@ rem
    if /I "%BASE_DISTRO_DIR%"=="X:" goto ERROR6
    if /I "%BASE_DISTRO_DIR%"=="Y:" goto ERROR6
    if /I "%BASE_DISTRO_DIR%"=="Z:" goto ERROR6
-   if not exist %BASE_DISTRO_DIR%\nul goto CREATE
 
 :PARSE_SWITCHES
 
@@ -193,6 +192,7 @@ rem
    if /I "%5"=="/S" set BEEP=-beep-
    if /I "%6"=="/S" set BEEP=-beep-
 
+   if not exist %BASE_DISTRO_DIR%\nul goto CREATE
    if not "%CLEAN%"=="T" goto CREATE
 
    del /f /s /q %BASE_DISTRO_DIR%\*.* > nul

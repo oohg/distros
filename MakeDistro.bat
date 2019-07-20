@@ -324,7 +324,6 @@ REM TODO: Add manual's build here
    if not exist mingw\nul goto ERROR5
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
-   set HG_MINGW==%HG_HRB%\COMP\MINGW
    cd ..
    cd ..
    cd ..
@@ -351,7 +350,6 @@ REM TODO: Add manual's build here
    if not exist mingw\nul goto ERROR5
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
-   set HG_MINGW==%HG_HRB%\COMP\MINGW
    cd ..
    cd ..
    cd ..
@@ -378,7 +376,6 @@ REM TODO: Add manual's build here
    if not exist mingw\nul goto ERROR5
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
-   set HG_MINGW==%HG_HRB%\COMP\MINGW
    cd ..
    cd ..
    cd ..
@@ -405,7 +402,6 @@ REM TODO: Add manual's build here
    if not exist bcc\nul goto ERROR5
    cd bcc
    xcopy %HG_BCC%\*.* /r /s /e /c /q /y /d
-   set HG_BCC==%HG_HRB%\COMP\BCC
    cd ..
    cd ..
    cd ..
@@ -432,7 +428,6 @@ REM TODO: Add manual's build here
    if not exist mingw\nul goto ERROR5
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
-   set HG_MINGW==%HG_HRB%\COMP\MINGW
    cd ..
    cd ..
    cd ..

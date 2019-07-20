@@ -8,6 +8,10 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2019-07-20 18:03 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     ! Building with /A switch.
+
 2019-07-18 20:43 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      ! Help message.

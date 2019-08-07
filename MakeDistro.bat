@@ -578,8 +578,8 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
+   set "TPATH=%PATH%"
+   set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32"
    if /I "%INCRE%"=="T" goto BUILD_LIBSHM30
    if not exist %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk\nul goto BUILD_LIBSHM30
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
@@ -591,7 +591,7 @@ REM TODO: Add manual's build here
    hbmk2 bostaurus.hbp %BEEP%
    hbmk2 miniprint.hbp %BEEP%
    hbmk2 hbprinter.hbp %BEEP%
-   set PATH=%TPATH%
+   set "PATH=%TPATH%"
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHM30
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
@@ -607,8 +607,8 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
+   set "TPATH=%PATH%"
+   set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32"
    if /I "%INCRE%"=="T" goto BUILD_LIBSHM32
    if not exist %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk\nul goto BUILD_LIBSHM32
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
@@ -620,7 +620,7 @@ REM TODO: Add manual's build here
    hbmk2 bostaurus.hbp %BEEP%
    hbmk2 miniprint.hbp %BEEP%
    hbmk2 hbprinter.hbp %BEEP%
-   set PATH=%TPATH%
+   set "PATH=%TPATH%"
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHM32
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
@@ -636,8 +636,8 @@ REM TODO: Add manual's build here
 
    echo Building libs...
    cd source
-   set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
+   set "TPATH=%PATH%"
+   set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32"
    if /I "%INCRE%"=="T" goto BUILD_LIBSHM34
    if not exist %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk\nul goto BUILD_LIBSHM34
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
@@ -649,7 +649,7 @@ REM TODO: Add manual's build here
    hbmk2 bostaurus.hbp %BEEP%
    hbmk2 miniprint.hbp %BEEP%
    hbmk2 hbprinter.hbp %BEEP%
-   set PATH=%TPATH%
+   set "PATH=%TPATH%"
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHM34
    attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
@@ -735,8 +735,8 @@ REM TODO: Add manual's build here
 :LIBSXM_GCC
 
    echo GCC: Compiling C files...
-   set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32
+   set "TPATH=%PATH%"
+   set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32"
    set HG_X_FLAGS=-W -Wall -O3 -c -I%HG_HRB%\include -I%HG_MINGW%\include -I%HG_ROOT%\include -L%HG_HRB%\%LIB_HRB% -L%HG_MINGW%\lib
    set HG_FILES_C=c_media c_controlmisc c_resource c_cursor c_font c_dialogs c_windows c_image c_msgbox c_winapimisc c_scrsaver c_graph c_activex c_gdiplus
    for %%a in ( %HG_FILES1_PRG% ) do if not errorlevel 1 gcc %HG_X_FLAGS% %%a.c
@@ -789,15 +789,15 @@ REM TODO: Add manual's build here
 
    echo Building oIDE...
    cd ide
-   set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
+   set "TPATH=%PATH%"
+   set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
    copy /b mgide.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
    windres -i _temp.rc -o _temp.o
    hbmk2 mgide.hbp _temp.o %BEEP%
    del _oohg_resconfig.h /q
    del _temp.* /q
-   set PATH=%TPATH%
+   set "PATH=%TPATH%"
    set TPATH=
    attrib -s -h .hbmk /s /d
    rd .hbmk /s /q
@@ -825,14 +825,14 @@ REM TODO: Add manual's build here
 
    echo Building oFMT...
    cd fmt
-   set TPATH=%PATH%
-   set PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%
+   set "TPATH=%PATH%"
+   set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
    copy /b %HG_ROOT%\resources\oohg.rc + ofmt.rc _temp.rc > nul
    hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP%
    del _oohg_resconfig.h /q
    del _temp.* /q
-   set PATH=%TPATH%
+   set "PATH=%TPATH%"
    set TPATH=
    if exist .hbmk\nul attrib -s -h .hbmk /s /d
    if exist .hbmk\nul rd .hbmk /s /q

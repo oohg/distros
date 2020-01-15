@@ -62,6 +62,6 @@ oohg.rc
 oohg_bcc.rc
 oohg.res
 oohg.o
-oohg_hb30.o
-oohg_hb32.o
-oohg_hb34.o
+oohg_hm30.o
+oohg_hm32.o
+oohg_hm34.o

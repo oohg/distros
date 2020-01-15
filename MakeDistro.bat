@@ -84,27 +84,27 @@ rem
    if /I "%1"=="HM30" if "%LIB_GUI%" == ""  set LIB_GUI=lib
    if /I "%1"=="HM30" if "%LIB_HRB%" == ""  set LIB_HRB=lib
    if /I "%1"=="HM30" if "%BIN_HRB%" == ""  set BIN_HRB=bin
-   if /I "%1"=="HM30" set HG_HB30=yes
-   if /I "%1"=="HM30" set HG_HB32=
-   if /I "%1"=="HM30" set HG_HB34=
+   if /I "%1"=="HM30" set HG_HM30=yes
+   if /I "%1"=="HM30" set HG_HM32=
+   if /I "%1"=="HM30" set HG_HM34=
 
    if /I "%1"=="HM32" if "%HG_HRB%" == ""   set HG_HRB=C:\HB32
    if /I "%1"=="HM32" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB32\COMP\MINGW
    if /I "%1"=="HM32" if "%LIB_GUI%" == ""  set LIB_GUI=lib\hb\mingw
    if /I "%1"=="HM32" if "%LIB_HRB%" == ""  set LIB_HRB=lib\win\mingw
    if /I "%1"=="HM32" if "%BIN_HRB%" == ""  set BIN_HRB=bin
-   if /I "%1"=="HM32" set HG_HB30=
-   if /I "%1"=="HM32" set HG_HB32=yes
-   if /I "%1"=="HM32" set HG_HB34=
+   if /I "%1"=="HM32" set HG_HM30=
+   if /I "%1"=="HM32" set HG_HM32=yes
+   if /I "%1"=="HM32" set HG_HM34=
 
    if /I "%1"=="HM34" if "%HG_HRB%" == ""   set HG_HRB=C:\HB34
    if /I "%1"=="HM34" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB34\COMP\MINGW
    if /I "%1"=="HM34" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb34\mingw
    if /I "%1"=="HM34" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\clang
    if /I "%1"=="HM34" if "%BIN_HRB%"  == "" set BIN_HRB=bin
-   if /I "%1"=="HM34" set HG_HB30=
-   if /I "%1"=="HM34" set HG_HB32=
-   if /I "%1"=="HM34" set HG_HB34=yes
+   if /I "%1"=="HM34" set HG_HM30=
+   if /I "%1"=="HM34" set HG_HM32=
+   if /I "%1"=="HM34" set HG_HM34=yes
 
    if /I "%1"=="XB55" if "%HG_HRB%" == ""   set HG_HRB=C:\XHBCC
    if /I "%1"=="XB55" if "%HG_BCC%" == ""   set HG_BCC=C:\BORLAND\BCC55

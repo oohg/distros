@@ -8,6 +8,12 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2020-01-15 20:35 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     * Vars HG_HB* renamed as HG_HM*
+   * distros\MakeExclude.txt
+     * Files oohg_hb* renamed as oohg_hm*
+
 2019-11-11 20:54 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      + Support for BCC 5.8.2

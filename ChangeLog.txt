@@ -8,6 +8,23 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2020-05-30 08:43 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+   * distros\MakeExclude.txt
+     * Added support for two new flavors: HM3264 and HM3464.
+
+2020-05-22 16:34 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     + Added support for new flavors.
+     + /P flag to enable -cflag options when compiling .c files.
+       Only for Harbour based build. See oohg.hbp, miniprint.hbp
+       and winprint.hbp
+     + /F flag to redirect build log to a file.
+
+2020-05-22 16:34 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeExclude.txt
+     + Added files for new flavors.
+
 2020-01-15 20:35 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      * Vars HG_HB* renamed as HG_HM*

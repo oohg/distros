@@ -3,30 +3,42 @@ rem
 rem $Id: MakeDistro.bat $
 rem
 
+setlocal
+if not %HG_LOG_FOLDER% == "" goto MAIN
+pushd "%~dp0"
+set HG_LOG_FOLDER=%CD%
+popd
+
 :MAIN
 
    cls
-   if /I "%1"=="HM30" goto CONTINUE
-   if /I "%1"=="HM32" goto CONTINUE
-   if /I "%1"=="HM34" goto CONTINUE
-   if /I "%1"=="XB55" goto CONTINUE
-   if /I "%1"=="XB58" goto CONTINUE
-   if /I "%1"=="XM"   goto CONTINUE
+   if /I "%1"=="HM30"   goto CONTINUE
+   if /I "%1"=="HM32"   goto CONTINUE
+   if /I "%1"=="HM3264" goto CONTINUE
+   if /I "%1"=="HM34"   goto CONTINUE
+   if /I "%1"=="HM3464" goto CONTINUE
+   if /I "%1"=="XB55"   goto CONTINUE
+   if /I "%1"=="XB58"   goto CONTINUE
+   if /I "%1"=="XM"     goto CONTINUE
    echo.
-   echo Usage: MakeDistro HarbourVersion [ /C ] [ /L ] [ /I ] [ /S ] [ /A ]
+   echo Usage: MakeDistro FLAVOR [ /C ] [ /L ] [ /I ] [ /S ] [ /A ] [ /P ] [ /F ]
    echo where
-   echo HarbourVersion is one of the following
-   echo   HM30 - Harbour 3.0 and MinGW
-   echo   HM32 - Harbour 3.2 and MinGW
-   echo   HM34 - Harbour 3.4 and MinGW
-   echo   XB55 - xHarbour and BCC 5.5.1
-   echo   XB58 - xHarbour and BCC 5.8.2
-   echo   XM   - xHarbour and MinGW
+   echo FLAVOR is one of the following
+   echo   HM30   - Harbour 3.0 and MinGW
+   echo   HM32   - Harbour 3.2 and MinGW
+   echo   HM3264 - Harbour 3.2 and MinGW, 64 bits
+   echo   HM34   - Harbour 3.4 and MinGW
+   echo   HM3464 - Harbour 3.4 and MinGW, 64 bits
+   echo   XB55   - xHarbour and BCC 5.5.1
+   echo   XB58   - xHarbour and BCC 5.8.2
+   echo   XM     - xHarbour and MinGW
    echo /C means erase destination folder before building
    echo /L means build libraries only
    echo /I means use incremental building
    echo /S means don't beep on exit
    echo /A means copy (x)Harbour and MinGW compilers
+   echo /P means treat warnings at C level as errors
+   echo /F means redirect build log to file makeFLAVOR.txt
    echo.
    goto END
 
@@ -79,62 +91,84 @@ rem
    rem Change these sets to use different sources for OOHG, Harbour and MinGW
    if "%HG_ROOT%" == "" set HG_ROOT=C:\OOHG
 
-   if /I "%1"=="HM30" if "%HG_HRB%" == ""   set HG_HRB=C:\HB30
-   if /I "%1"=="HM30" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB30\COMP\MINGW
-   if /I "%1"=="HM30" if "%LIB_GUI%" == ""  set LIB_GUI=lib
-   if /I "%1"=="HM30" if "%LIB_HRB%" == ""  set LIB_HRB=lib
-   if /I "%1"=="HM30" if "%BIN_HRB%" == ""  set BIN_HRB=bin
-   if /I "%1"=="HM30" set HG_HM30=yes
-   if /I "%1"=="HM30" set HG_HM32=
-   if /I "%1"=="HM30" set HG_HM34=
+   set HG_HM30=
+   set HG_HM32=
+   set HG_HM3264=
+   set HG_HM34=
+   set HG_HM3464=
+   set HG_XB55=
+   set HG_XB58=
+   set HG_XM=
 
-   if /I "%1"=="HM32" if "%HG_HRB%" == ""   set HG_HRB=C:\HB32
-   if /I "%1"=="HM32" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB32\COMP\MINGW
-   if /I "%1"=="HM32" if "%LIB_GUI%" == ""  set LIB_GUI=lib\hb\mingw
-   if /I "%1"=="HM32" if "%LIB_HRB%" == ""  set LIB_HRB=lib\win\mingw
-   if /I "%1"=="HM32" if "%BIN_HRB%" == ""  set BIN_HRB=bin
-   if /I "%1"=="HM32" set HG_HM30=
-   if /I "%1"=="HM32" set HG_HM32=yes
-   if /I "%1"=="HM32" set HG_HM34=
+   if /I "%1"=="HM30" if "%HG_HRB%"     == "" set HG_HRB=C:\HB30
+   if /I "%1"=="HM30" if "%HG_MINGW%"   == "" set HG_MINGW=C:\HB30\COMP\MINGW
+   if /I "%1"=="HM30" if "%LIB_GUI%"    == "" set LIB_GUI=lib
+   if /I "%1"=="HM30" if "%LIB_HRB%"    == "" set LIB_HRB=lib
+   if /I "%1"=="HM30" if "%BIN_HRB%"    == "" set BIN_HRB=bin
+   if /I "%1"=="HM30" set HG_HM30=YES
 
-   if /I "%1"=="HM34" if "%HG_HRB%" == ""   set HG_HRB=C:\HB34
-   if /I "%1"=="HM34" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB34\COMP\MINGW
-   if /I "%1"=="HM34" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb34\mingw
-   if /I "%1"=="HM34" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\clang
-   if /I "%1"=="HM34" if "%BIN_HRB%"  == "" set BIN_HRB=bin
-   if /I "%1"=="HM34" set HG_HM30=
-   if /I "%1"=="HM34" set HG_HM32=
-   if /I "%1"=="HM34" set HG_HM34=yes
+   if /I "%1"=="HM32" if "%HG_HRB%"     == "" set HG_HRB=C:\HB32
+   if /I "%1"=="HM32" if "%HG_MINGW%"   == "" set HG_MINGW=C:\HB32\COMP\MINGW
+   if /I "%1"=="HM32" if "%LIB_GUI%"    == "" set LIB_GUI=lib\hb\mingw
+   if /I "%1"=="HM32" if "%LIB_HRB%"    == "" set LIB_HRB=lib\win\mingw
+   if /I "%1"=="HM32" if "%BIN_HRB%"    == "" set BIN_HRB=bin
+   if /I "%1"=="HM32" set HG_HM32=YES
 
-   if /I "%1"=="XB55" if "%HG_HRB%" == ""   set HG_HRB=C:\XHBCC
-   if /I "%1"=="XB55" if "%HG_BCC%" == ""   set HG_BCC=C:\BORLAND\BCC55
-   if /I "%1"=="XB55" if "%LIB_GUI%"  == "" set LIB_GUI=lib\xhb\bcc
-   if /I "%1"=="XB55" if "%LIB_HRB%"  == "" set LIB_HRB=lib
-   if /I "%1"=="XB55" if "%BIN_HRB%"  == "" set BIN_HRB=bin
+   if /I "%1"=="HM3264" if "%HG_HRB%"   == "" set HG_HRB=C:\HB3264
+   if /I "%1"=="HM3264" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB3264\COMP\MINGW
+   if /I "%1"=="HM3264" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb\mingw64
+   if /I "%1"=="HM3264" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\mingw64
+   if /I "%1"=="HM3264" if "%BIN_HRB%"  == "" set BIN_HRB=bin
+   if /I "%1"=="HM3264" set HG_HM3264=YES
 
-   if /I "%1"=="XB58" if "%HG_HRB%" == ""   set HG_HRB=C:\XHBCC
-   if /I "%1"=="XB58" if "%HG_BCC%" == ""   set HG_BCC=C:\BORLAND\BCC58
-   if /I "%1"=="XB58" if "%LIB_GUI%"  == "" set LIB_GUI=lib\xhb\bcc
-   if /I "%1"=="XB58" if "%LIB_HRB%"  == "" set LIB_HRB=lib
-   if /I "%1"=="XB58" if "%BIN_HRB%"  == "" set BIN_HRB=bin
+   if /I "%1"=="HM34" if "%HG_HRB%"     == "" set HG_HRB=C:\HB34
+   if /I "%1"=="HM34" if "%HG_MINGW%"   == "" set HG_MINGW=C:\HB34\COMP\MINGW
+   if /I "%1"=="HM34" if "%LIB_GUI%"    == "" set LIB_GUI=lib\hb34\mingw
+   if /I "%1"=="HM34" if "%LIB_HRB%"    == "" set LIB_HRB=lib\win\clang
+   if /I "%1"=="HM34" if "%BIN_HRB%"    == "" set BIN_HRB=bin
+   if /I "%1"=="HM34" set HG_HM34=YES
 
-   if /I "%1"=="XM"   if "%HG_HRB%" == ""   set HG_HRB=C:\XHMINGW
-   if /I "%1"=="XM"   if "%HG_MINGW%" == "" set HG_MINGW=C:\XHMINGW\COMP\MINGW
-   if /I "%1"=="XM"   if "%LIB_GUI%"  == "" set LIB_GUI=lib\xhb\mingw
-   if /I "%1"=="XM"   if "%LIB_HRB%"  == "" set LIB_HRB=lib
-   if /I "%1"=="XM"   if "%BIN_HRB%"  == "" set BIN_HRB=bin
+   if /I "%1"=="HM3464" if "%HG_HRB%"   == "" set HG_HRB=C:\HB3464
+   if /I "%1"=="HM3464" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB3464\COMP\MINGW
+   if /I "%1"=="HM3464" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb3464\mingw64
+   if /I "%1"=="HM3464" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\clang64
+   if /I "%1"=="HM3464" if "%BIN_HRB%"  == "" set BIN_HRB=bin
+   if /I "%1"=="HM3464" set HG_HM3464=YES
+
+   if /I "%1"=="XB55" if "%HG_HRB%"     == "" set HG_HRB=C:\XHBCC
+   if /I "%1"=="XB55" if "%HG_BCC%"     == "" set HG_BCC=C:\BORLAND\BCC55
+   if /I "%1"=="XB55" if "%LIB_GUI%"    == "" set LIB_GUI=lib\xhb\bcc
+   if /I "%1"=="XB55" if "%LIB_HRB%"    == "" set LIB_HRB=lib
+   if /I "%1"=="XB55" if "%BIN_HRB%"    == "" set BIN_HRB=bin
+   if /I "%1"=="XB55" set HG_XB55=YES
+
+   if /I "%1"=="XB58" if "%HG_HRB%"     == "" set HG_HRB=C:\XHBCC
+   if /I "%1"=="XB58" if "%HG_BCC%"     == "" set HG_BCC=C:\BORLAND\BCC58
+   if /I "%1"=="XB58" if "%LIB_GUI%"    == "" set LIB_GUI=lib\xhb\bcc
+   if /I "%1"=="XB58" if "%LIB_HRB%"    == "" set LIB_HRB=lib
+   if /I "%1"=="XB58" if "%BIN_HRB%"    == "" set BIN_HRB=bin
+   if /I "%1"=="XB58" set HG_XB58=YES
+
+   if /I "%1"=="XM" if "%HG_HRB%"       == "" set HG_HRB=C:\XHMINGW
+   if /I "%1"=="XM" if "%HG_MINGW%"     == "" set HG_MINGW=C:\XHMINGW\COMP\MINGW
+   if /I "%1"=="XM" if "%LIB_GUI%"      == "" set LIB_GUI=lib\xhb\mingw
+   if /I "%1"=="XM" if "%LIB_HRB%"      == "" set LIB_HRB=lib
+   if /I "%1"=="XM" if "%BIN_HRB%"      == "" set BIN_HRB=bin
+   if /I "%1"=="XM" set HG_XM=YES
 
    if not exist %HG_ROOT%\distros\MakeExclude.txt goto ERROR2
 
 :DISTRO_FOLDER
 
    if not "%BASE_DISTRO_DIR%"=="" goto PREPARE
-   if /I "%1"=="HM30" set BASE_DISTRO_DIR=C:\OOHG_HM30
-   if /I "%1"=="HM32" set BASE_DISTRO_DIR=C:\OOHG_HM32
-   if /I "%1"=="HM34" set BASE_DISTRO_DIR=C:\OOHG_HM34
-   if /I "%1"=="XB55" set BASE_DISTRO_DIR=C:\OOHG_XB55
-   if /I "%1"=="XB58" set BASE_DISTRO_DIR=C:\OOHG_XB58
-   if /I "%1"=="XM"   set BASE_DISTRO_DIR=C:\OOHG_XM
+   if /I "%1"=="HM30"   set BASE_DISTRO_DIR=C:\OOHG_HM30
+   if /I "%1"=="HM32"   set BASE_DISTRO_DIR=C:\OOHG_HM32
+   if /I "%1"=="HM3264" set BASE_DISTRO_DIR=C:\OOHG_HM3264
+   if /I "%1"=="HM34"   set BASE_DISTRO_DIR=C:\OOHG_HM34
+   if /I "%1"=="HM3464" set BASE_DISTRO_DIR=C:\OOHG_HM3464
+   if /I "%1"=="XB55"   set BASE_DISTRO_DIR=C:\OOHG_XB55
+   if /I "%1"=="XB58"   set BASE_DISTRO_DIR=C:\OOHG_XB58
+   if /I "%1"=="XM"     set BASE_DISTRO_DIR=C:\OOHG_XM
 
 :PREPARE
 
@@ -170,6 +204,18 @@ rem
 
 :PARSE_SWITCHES
 
+   set REDIR=NO
+   if /I "%2"=="/F" set REDIR=YES
+   if /I "%3"=="/F" set REDIR=YES
+   if /I "%4"=="/F" set REDIR=YES
+   if /I "%5"=="/F" set REDIR=YES
+   if /I "%6"=="/F" set REDIR=YES
+   set HG_CFLAGS=
+   if /I "%2"=="/P" set HG_CFLAGS=pedantic
+   if /I "%3"=="/P" set HG_CFLAGS=pedantic
+   if /I "%4"=="/P" set HG_CFLAGS=pedantic
+   if /I "%5"=="/P" set HG_CFLAGS=pedantic
+   if /I "%6"=="/P" set HG_CFLAGS=pedantic
    set CLEAN=F
    if /I "%2"=="/C" set CLEAN=T
    if /I "%3"=="/C" set CLEAN=T
@@ -201,6 +247,8 @@ rem
    if /I "%5"=="/S" set BEEP=-beep-
    if /I "%6"=="/S" set BEEP=-beep-
 
+   if exist %HG_LOG_FOLDER%\make%1.txt del %HG_LOG_FOLDER%\make%1.txt
+
    if not exist %BASE_DISTRO_DIR%\nul goto CREATE
    if not "%CLEAN%"=="T" goto CREATE
 
@@ -222,24 +270,30 @@ rem
    if not exist doc\nul md doc
    if not exist doc\nul goto ERROR3
    if not "%ADDCOMPS%"=="T" goto FOLDERS_CONTINUE
-   if /I "%1"=="HM30" set BASE_DISTRO_SUBDIR=hb30
-   if /I "%1"=="HM30" if not exist hb30\nul md hb30
-   if /I "%1"=="HM30" if not exist hb30\nul goto ERROR3
-   if /I "%1"=="HM32" set BASE_DISTRO_SUBDIR=hb32
-   if /I "%1"=="HM32" if not exist hb32\nul md hb32
-   if /I "%1"=="HM32" if not exist hb32\nul goto ERROR3
-   if /I "%1"=="HM34" set BASE_DISTRO_SUBDIR=hb34
-   if /I "%1"=="HM34" if not exist hb34\nul md hb34
-   if /I "%1"=="HM34" if not exist hb34\nul goto ERROR3
-   if /I "%1"=="XB55" set BASE_DISTRO_SUBDIR=xhbcc
-   if /I "%1"=="XB55" if not exist xhbcc\nul md xhbcc
-   if /I "%1"=="XB55" if not exist xhbcc\nul goto ERROR3
-   if /I "%1"=="XB58" set BASE_DISTRO_SUBDIR=xhbcc
-   if /I "%1"=="XB58" if not exist xhbcc\nul md xhbcc
-   if /I "%1"=="XB58" if not exist xhbcc\nul goto ERROR3
-   if /I "%1"=="XM"   set BASE_DISTRO_SUBDIR=xhmingw
-   if /I "%1"=="XM"   if not exist xhmingw\nul md xhmingw
-   if /I "%1"=="XM"   if not exist xhmingw\nul goto ERROR3
+   if /I "%1"=="HM30"   set BASE_DISTRO_SUBDIR=hb30
+   if /I "%1"=="HM30"   if not exist hb30\nul md hb30
+   if /I "%1"=="HM30"   if not exist hb30\nul goto ERROR3
+   if /I "%1"=="HM32"   set BASE_DISTRO_SUBDIR=hb32
+   if /I "%1"=="HM32"   if not exist hb32\nul md hb32
+   if /I "%1"=="HM32"   if not exist hb32\nul goto ERROR3
+   if /I "%1"=="HM3264" set BASE_DISTRO_SUBDIR=hb3264
+   if /I "%1"=="HM3264" if not exist hb3264\nul md hb3264
+   if /I "%1"=="HM3264" if not exist hb3264\nul goto ERROR3
+   if /I "%1"=="HM34"   set BASE_DISTRO_SUBDIR=hb34
+   if /I "%1"=="HM34"   if not exist hb34\nul md hb34
+   if /I "%1"=="HM34"   if not exist hb34\nul goto ERROR3
+   if /I "%1"=="HM3464" set BASE_DISTRO_SUBDIR=hb3464
+   if /I "%1"=="HM3464" if not exist hb3464\nul md hb3464
+   if /I "%1"=="HM3464" if not exist hb3464\nul goto ERROR3
+   if /I "%1"=="XB55"   set BASE_DISTRO_SUBDIR=xhbcc
+   if /I "%1"=="XB55"   if not exist xhbcc\nul md xhbcc
+   if /I "%1"=="XB55"   if not exist xhbcc\nul goto ERROR3
+   if /I "%1"=="XB58"   set BASE_DISTRO_SUBDIR=xhbcc
+   if /I "%1"=="XB58"   if not exist xhbcc\nul md xhbcc
+   if /I "%1"=="XB58"   if not exist xhbcc\nul goto ERROR3
+   if /I "%1"=="XM"     set BASE_DISTRO_SUBDIR=xhmingw
+   if /I "%1"=="XM"     if not exist xhmingw\nul md xhmingw
+   if /I "%1"=="XM"     if not exist xhmingw\nul goto ERROR3
 
 :FOLDERS_CONTINUE
 
@@ -249,12 +303,14 @@ rem
    set BASE_DISTRO_SUBDIR=include
    if not exist include\nul md include
    if not exist include\nul goto ERROR3
-   if /I "%1"=="HM30" set BASE_DISTRO_SUBDIR=lib
-   if /I "%1"=="HM32" set BASE_DISTRO_SUBDIR=lib\hb\mingw
-   if /I "%1"=="HM34" set BASE_DISTRO_SUBDIR=lib\hb34\mingw
-   if /I "%1"=="XB55" set BASE_DISTRO_SUBDIR=lib\xhb\bcc
-   if /I "%1"=="XB58" set BASE_DISTRO_SUBDIR=lib\xhb\bcc
-   if /I "%1"=="XM"   set BASE_DISTRO_SUBDIR=lib\xhb\mingw
+   if /I "%1"=="HM30"   set BASE_DISTRO_SUBDIR=lib
+   if /I "%1"=="HM32"   set BASE_DISTRO_SUBDIR=lib\hb\mingw
+   if /I "%1"=="HM3264" set BASE_DISTRO_SUBDIR=lib\hb\mingw64
+   if /I "%1"=="HM34"   set BASE_DISTRO_SUBDIR=lib\hb34\mingw
+   if /I "%1"=="HM3464" set BASE_DISTRO_SUBDIR=lib\hb34\mingw64
+   if /I "%1"=="XB55"   set BASE_DISTRO_SUBDIR=lib\xhb\bcc
+   if /I "%1"=="XB58"   set BASE_DISTRO_SUBDIR=lib\xhb\bcc
+   if /I "%1"=="XM"     set BASE_DISTRO_SUBDIR=lib\xhb\mingw
    if not exist %BASE_DISTRO_SUBDIR%\nul md %BASE_DISTRO_SUBDIR%
    if not exist %BASE_DISTRO_SUBDIR%\nul goto ERROR3
    set BASE_DISTRO_SUBDIR=fmt
@@ -275,30 +331,42 @@ rem
    echo Copying %HG_ROOT%...
    xcopy %HG_ROOT%\core\*.* /r /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
    xcopy %HG_ROOT%\core\compile.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\compile30.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\compile32.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\compile34.bat /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\core\compileXB.bat /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\core\compileXB.bat /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\core\compileXM.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\core\compile_bcc.bat /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\core\compile_bcc.bat /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\BuildApp30.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\BuildApp32.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\BuildApp34.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\compile30.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\compile32.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\compile3264.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\compile34.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\compile3464.bat /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\core\compileXB.bat /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\core\compileXB.bat /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\core\compileXM.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\core\compile_bcc.bat /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\core\compile_bcc.bat /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\core\compile_mingw.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\BuildApp30.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\BuildApp32.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\BuildApp3264.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\BuildApp34.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\BuildApp3464.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\BuildApp.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\BuildApp_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\oohg.hbc /r /y /d /q
    echo.
 
 :DOC
@@ -345,7 +413,7 @@ REM TODO: Add manual's build here
 
 :HM32
 
-   if /I not "%1"=="HM32" goto HM34
+   if /I not "%1"=="HM32" goto HM3264
    echo Copying HM32...
    set BASE_DISTRO_SUBDIR=hb32
    if not exist hb32\nul goto ERROR5
@@ -369,13 +437,65 @@ REM TODO: Add manual's build here
    cd ..
    echo.
 
+:HM3264
+
+   if /I not "%1"=="HM3264" goto HM34
+   echo Copying HM3264...
+   set BASE_DISTRO_SUBDIR=hb3264
+   if not exist hb3264\nul goto ERROR5
+   cd hb3264
+   xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
+   set BASE_DISTRO_SUBDIR=comp
+   if not exist comp\nul md comp
+   if not exist comp\nul goto ERROR5
+   cd comp
+   set BASE_DISTRO_SUBDIR=mingw
+   if not exist mingw\nul md mingw
+   if not exist mingw\nul goto ERROR5
+   cd mingw
+   xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
+   cd ..
+   cd ..
+   cd ..
+   echo.
+
 :HM34
 
-   if /I not "%1"=="HM34" goto XB55
+   if /I not "%1"=="HM34" goto HM3464
    echo Copying HM34...
    set BASE_DISTRO_SUBDIR=hb34
    if not exist hb34\nul goto ERROR5
    cd hb34
+   xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
+   set BASE_DISTRO_SUBDIR=comp
+   if not exist comp\nul md comp
+   if not exist comp\nul goto ERROR5
+   cd comp
+   set BASE_DISTRO_SUBDIR=mingw
+   if not exist mingw\nul md mingw
+   if not exist mingw\nul goto ERROR5
+   cd mingw
+   xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
+   cd ..
+   cd ..
+   cd ..
+   echo.
+
+:HM3464
+
+   if /I not "%1"=="HM3464" goto XB55
+   echo Copying HM3464...
+   set BASE_DISTRO_SUBDIR=hb3464
+   if not exist hb3464\nul goto ERROR5
+   cd hb3464
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
    if exist uninstall.exe del uninstall.exe
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
@@ -459,15 +579,19 @@ REM TODO: Add manual's build here
    if not exist ide\nul goto ERROR5
    cd ide
    xcopy %HG_ROOT%\ide\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\ide\compile.bat /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\ide\compile.bat /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\ide\compile.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\ide\build.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\ide\mgide.hbp /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\ide\compile.bat /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\ide\compile.bat /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\ide\compile.bat /r /y /d /q
    cd ..
    echo.
 
@@ -488,18 +612,21 @@ REM TODO: Add manual's build here
    if not exist fmt\nul goto ERROR5
    cd fmt
    xcopy %HG_ROOT%\fmt\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\fmt\build.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\fmt\ofmt.hbp /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\fmt\compile.bat /r /y /d /q
    cd ..
    echo.
-   if /I not "%1"=="HM30" goto RESOURCES
 
 :RESOURCES
 
@@ -508,18 +635,22 @@ REM TODO: Add manual's build here
    if not exist resources\nul goto ERROR5
    cd resources
    xcopy %HG_ROOT%\core\resources\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\core\resources\compileres_bcc.bat /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\core\resources\compileres_bcc.bat /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\core\resources\oohg_bcc.rc /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\core\resources\oohg_bcc.rc /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\core\resources\compileres_bcc.bat /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\core\resources\compileres_bcc.bat /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\core\resources\compileres_mingw.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\core\resources\oohg_bcc.rc /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\core\resources\oohg_bcc.rc /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\core\resources\oohg.rc /r /y /d /q
    cd ..
    echo.
 
@@ -541,39 +672,57 @@ REM TODO: Add manual's build here
    if not exist source\nul goto ERROR5
    cd source
    xcopy %HG_ROOT%\core\source\*.* /r /s /e /c /q /y /d /exclude:%HG_ROOT%\distros\MakeExclude.txt
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\BuildLib30.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\BuildLib32.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\BuildLib34.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\MakeLib30.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\MakeLib32.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\MakeLib34.bat /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\core\source\MakeLibXM.bat /r /y /d /q
-   if /I "%1"=="HM30" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
-   if /I "%1"=="HM32" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
-   if /I "%1"=="HM34" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
-   if /I "%1"=="XM"   xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\core\source\MakeLibXB.bat /r /y /d /q
-   if /I "%1"=="XB55" xcopy %HG_ROOT%\core\source\makelib_bcc.bat /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\core\source\MakeLibXB.bat /r /y /d /q
-   if /I "%1"=="XB58" xcopy %HG_ROOT%\core\source\makelib_bcc.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\BuildLib30.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\BuildLib32.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\BuildLib3264.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\BuildLib34.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\BuildLib3464.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\buildlib.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\buildlib_hbmk2.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\oohg.hbp /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\bostaurus.hbp /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\miniprint.hbp /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\hbprinter.hbp /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\MakeLib30.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\MakeLib32.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\MakeLib3264.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\MakeLib34.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\MakeLib3464.bat /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\core\source\MakeLibXM.bat /r /y /d /q
+   if /I "%1"=="HM30"   xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+   if /I "%1"=="HM32"   xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+   if /I "%1"=="HM3264" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+   if /I "%1"=="HM34"   xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+   if /I "%1"=="HM3464" xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+   if /I "%1"=="XM"     xcopy %HG_ROOT%\core\source\makelib_mingw.bat /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\core\source\MakeLibXB.bat /r /y /d /q
+   if /I "%1"=="XB55"   xcopy %HG_ROOT%\core\source\makelib_bcc.bat /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\core\source\MakeLibXB.bat /r /y /d /q
+   if /I "%1"=="XB58"   xcopy %HG_ROOT%\core\source\makelib_bcc.bat /r /y /d /q
    cd ..
    echo.
 
@@ -582,22 +731,26 @@ REM TODO: Add manual's build here
    echo Compiling resource file...
    cd resources
    set HG_ROOT=%BASE_DISTRO_DIR%
-   if /I "%1"=="HM30" call compileres_mingw.bat /NOCLS HM30
-   if /I "%1"=="HM32" call compileres_mingw.bat /NOCLS HM32
-   if /I "%1"=="HM34" call compileres_mingw.bat /NOCLS HM34
-   if /I "%1"=="XB55" call compileres_bcc.bat /NOCLS
-   if /I "%1"=="XB58" call compileres_bcc.bat /NOCLS
-   if /I "%1"=="XM"   call compileres_mingw.bat /NOCLS XM
+   if /I "%1"=="HM30"   call compileres_mingw.bat /NOCLS HM30
+   if /I "%1"=="HM32"   call compileres_mingw.bat /NOCLS HM32
+   if /I "%1"=="HM3264" call compileres_mingw.bat /NOCLS HM3264
+   if /I "%1"=="HM34"   call compileres_mingw.bat /NOCLS HM34
+   if /I "%1"=="HM3464" call compileres_mingw.bat /NOCLS HM3464
+   if /I "%1"=="XB55"   call compileres_bcc.bat /NOCLS
+   if /I "%1"=="XB58"   call compileres_bcc.bat /NOCLS
+   if /I "%1"=="XM"     call compileres_mingw.bat /NOCLS XM
    cd ..
 
 :BUILDLIBS
 
-   if /I "%1"=="HM30" goto LIBSHM30
-   if /I "%1"=="HM32" goto LIBSHM32
-   if /I "%1"=="HM34" goto LIBSHM34
-   if /I "%1"=="XB55" goto LIBSXB
-   if /I "%1"=="XB58" goto LIBSXB
-   if /I "%1"=="XM"   goto LIBSXM
+   if /I "%1"=="HM30"   goto LIBSHM30
+   if /I "%1"=="HM32"   goto LIBSHM32
+   if /I "%1"=="HM3264" goto LIBSHM32
+   if /I "%1"=="HM34"   goto LIBSHM34
+   if /I "%1"=="HM3464" goto LIBSHM34
+   if /I "%1"=="XB55"   goto LIBSXB
+   if /I "%1"=="XB58"   goto LIBSXB
+   if /I "%1"=="XM"     goto LIBSXM
    popd
    goto END
 
@@ -614,10 +767,20 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM30
 
-   hbmk2 oohg.hbp %BEEP%
-   hbmk2 bostaurus.hbp %BEEP%
-   hbmk2 miniprint.hbp %BEEP%
-   hbmk2 hbprinter.hbp %BEEP%
+   if not "%REDIR%"=="YES" hbmk2 oohg.hbp
+   if not "%REDIR%"=="YES" hbmk2 bostaurus.hbp
+   if not "%REDIR%"=="YES" hbmk2 miniprint.hbp
+   if not "%REDIR%"=="YES" hbmk2 hbprinter.hbp
+
+   if     "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+
    set "PATH=%TPATH%"
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHM30
@@ -643,10 +806,20 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM32
 
-   hbmk2 oohg.hbp      %BEEP%
-   hbmk2 bostaurus.hbp %BEEP%
-   hbmk2 miniprint.hbp %BEEP%
-   hbmk2 hbprinter.hbp %BEEP%
+   if not "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP%
+   if not "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP%
+   if not "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP%
+   if not "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP%
+
+   if     "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+
    set "PATH=%TPATH%"
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHM32
@@ -672,10 +845,24 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM34
 
-   hbmk2 oohg.hbp %BEEP%
-   hbmk2 bostaurus.hbp %BEEP%
-   hbmk2 miniprint.hbp %BEEP%
-   hbmk2 hbprinter.hbp %BEEP%
+   if not "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP%
+   if not "%REDIR%"=="YES" echo.
+   if not "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP%
+   if not "%REDIR%"=="YES" echo.
+   if not "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP%
+   if not "%REDIR%"=="YES" echo.
+   if not "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP%
+   if not "%REDIR%"=="YES" echo.
+
+   if     "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+
    set "PATH=%TPATH%"
    set TPATH=
    if /I "%INCRE%"=="T" goto REST_LIBSHM34
@@ -696,7 +883,8 @@ REM TODO: Add manual's build here
    set HG_FILES1_PRG=h_error h_windows h_form h_ipaddress h_monthcal h_help h_status h_tree h_toolbar h_init h_media h_winapimisc h_slider h_button h_checkbox h_combo h_controlmisc h_datepicker h_editbox h_dialogs h_grid h_image h_label h_listbox h_menu h_msgbox h_frame h_progressbar h_radio h_spinner h_tab h_textbox h_application h_notify
    set HG_FILES2_PRG=h_graph h_richeditbox h_edit h_edit_ex h_scrsaver h_browse h_crypt h_zip h_comm h_print h_scroll h_splitbox h_progressmeter h_scrollbutton h_xbrowse h_internal h_textarray h_hotkeybox h_activex h_pdf h_hotkey h_hyperlink h_tooltip h_picture h_dll h_checklist h_timer h_cursor h_ini h_report h_registry h_anigif
    set HG_X_FLAGS=-i"%HG_HRB%\include;%HG_ROOT%\include" -n1 -gc0 -q0
-   %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
+   if not "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
+   if     "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if not errorlevel 1 goto LIBSXB_BCC
    if /I "%1"=="XB55" echo Error building XB55 libs!
    if /I "%1"=="XB58" echo Error building XB58 libs!
@@ -705,31 +893,33 @@ REM TODO: Add manual's build here
 :LIBSXB_BCC
 
    echo BCC32: Compiling C files...
-   if exist resul.txt del resul.txt
    set HG_X_FLAGS=-c -O2 -tW -tWM -d -a8 -OS -5 -6 -w -I%HG_HRB%\include;%HG_BCC%\include;%HG_ROOT%\include; -L%HG_HRB%\%LIB_HRB%;%HG_BCC%\lib;
    set HG_FILES_C=c_media c_controlmisc c_resource c_cursor c_font c_dialogs c_windows c_image c_msgbox c_winapimisc c_scrsaver c_graph c_activex c_gdiplus
-   for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% miniprint winprint bostaurus ) do if not errorlevel 1 %HG_BCC%\bin\bcc32 %HG_X_FLAGS% %%a.c >> resul.txt
-   if not errorlevel 1 goto LIBSXB_TLIB
-   if /I "%1"=="XB55" echo Error building XB55 libs!
-   if /I "%1"=="XB58" echo Error building XB58 libs!
-   type resul.txt
-   goto END
+   for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% miniprint winprint bostaurus ) do (
+      if not "%REDIR%"=="YES" %HG_BCC%\bin\bcc32 %HG_X_FLAGS% %%a.c
+      if     "%REDIR%"=="YES" %HG_BCC%\bin\bcc32 %HG_X_FLAGS% %%a.c >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+      if errorlevel 1 goto END
+   )
 
 :LIBSXB_TLIB
 
    echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\oohg.lib...
+   if exist %HG_ROOT%\%LIB_GUI%\oohg.lib del %HG_ROOT%\%LIB_GUI%\oohg.lib
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% ) do (
-      %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P32 > nul
+      %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64 > nul
       if errorlevel 1 goto END
    )
-   echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\hbprinter.lib...
-   %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\hbprinter + winprint.obj > nul
+   echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\bostaurus.lib...
+   if exist %HG_ROOT%\%LIB_GUI%\bostaurus.lib del %HG_ROOT%\%LIB_GUI%\bostaurus.lib
+   %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\bostaurus + bostaurus.obj > nul
    if errorlevel 1 goto END
    echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\miniprint.lib...
+   if exist %HG_ROOT%\%LIB_GUI%\miniprint.lib del %HG_ROOT%\%LIB_GUI%\miniprint.lib
    %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\miniprint + miniprint.obj > nul
    if errorlevel 1 goto END
-   echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\bostaurus.lib...
-   %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\bostaurus + bostaurus.obj > nul
+   echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\hbprinter.lib...
+   if exist %HG_ROOT%\%LIB_GUI%\hbprinter.lib del %HG_ROOT%\%LIB_GUI%\hbprinter.lib
+   %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\hbprinter + winprint.obj > nul
    if errorlevel 1 goto END
    echo Build finished OK !!!
    del %HG_ROOT%\%LIB_GUI%\*.bak /q > nul
@@ -738,7 +928,6 @@ REM TODO: Add manual's build here
    del winprint.c /q
    del miniprint.c /q
    del bostaurus.c /q
-   del resul.txt
    set HG_X_FLAGS=
    set HG_FILES_C=
    set HG_FILES2_PRG=
@@ -756,7 +945,8 @@ REM TODO: Add manual's build here
    set HG_FILES1_PRG=h_error h_windows h_form h_ipaddress h_monthcal h_help h_status h_tree h_toolbar h_init h_media h_winapimisc h_slider h_button h_checkbox h_combo h_controlmisc h_datepicker h_editbox h_dialogs h_grid h_image h_label h_listbox h_menu h_msgbox h_frame h_progressbar h_radio h_spinner h_tab h_textbox h_application h_notify
    set HG_FILES2_PRG=h_graph h_richeditbox h_edit h_edit_ex h_scrsaver h_browse h_crypt h_zip h_comm h_print h_scroll h_splitbox h_progressmeter h_scrollbutton h_xbrowse h_internal h_textarray h_hotkeybox h_activex h_pdf h_hotkey h_hyperlink h_tooltip h_picture h_dll h_checklist h_timer h_cursor h_ini h_report h_registry h_anigif
    set HG_X_FLAGS=-i"%HG_HRB%\include;%HG_ROOT%\include" -n1 -gc0 -q0
-   %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
+   if not "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
+   if     "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if not errorlevel 1 goto LIBSXM_GCC
    echo Error building XM libs!
    goto END
@@ -768,37 +958,33 @@ REM TODO: Add manual's build here
    set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%;C:\WINDOWS\SYSTEM32"
    set HG_X_FLAGS=-W -Wall -O3 -c -I%HG_HRB%\include -I%HG_MINGW%\include -I%HG_ROOT%\include -L%HG_HRB%\%LIB_HRB% -L%HG_MINGW%\lib
    set HG_FILES_C=c_media c_controlmisc c_resource c_cursor c_font c_dialogs c_windows c_image c_msgbox c_winapimisc c_scrsaver c_graph c_activex c_gdiplus
-   for %%a in ( %HG_FILES1_PRG% ) do if not errorlevel 1 gcc %HG_X_FLAGS% %%a.c
-   if errorlevel 1 goto END
-   for %%a in ( %HG_FILES2_PRG% ) do if not errorlevel 1 gcc %HG_X_FLAGS% %%a.c
-   if errorlevel 1 goto END
-   for %%a in  (%HG_FILES_C% )    do if not errorlevel 1 gcc %HG_X_FLAGS% %%a.c
-   if errorlevel 1 goto END
-   if exist winprint.c  gcc %HG_X_FLAGS% winprint.c
-   if errorlevel 1 goto END
-   if exist miniprint.c gcc %HG_X_FLAGS% miniprint.c
-   if errorlevel 1 goto END
-   if exist bostaurus.c gcc %HG_X_FLAGS% bostaurus.c
-   if errorlevel 1 goto END
+   for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% miniprint winprint bostaurus ) do (
+      if not "%REDIR%"=="YES" gcc %HG_X_FLAGS% %%a.c
+      if     "%REDIR%"=="YES" gcc %HG_X_FLAGS% %%a.c >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+      if errorlevel 1 goto END
+   )
 
 :LIBSXM_BUILD
 
    echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\liboohg.a...
-   %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a h_scrsaver.o h_edit.o h_edit_ex.o h_error.o h_ipaddress.o h_monthcal.o h_help.o h_status.o h_tree.o h_toolbar.o h_init.o h_media.o c_media.o c_resource.o h_cursor.o c_cursor.o h_ini.o h_report.o c_font.o h_hyperlink.o c_scrsaver.o h_hotkey.o h_graph.o c_graph.o h_richeditbox.o h_browse.o h_scroll.o h_zip.o h_progressmeter.o h_comm.o h_print.o h_splitbox.o h_scrollbutton.o h_pdf.o h_tooltip.o h_application.o h_notify.o
-   if errorlevel 2 goto END
-   %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a h_windows.o h_form.o c_windows.o h_crypt.o h_winapimisc.o h_slider.o c_controlmisc.o c_dialogs.o c_image.o c_msgbox.o c_winapimisc.o h_button.o h_checkbox.o h_combo.o h_controlmisc.o h_datepicker.o h_editbox.o h_dialogs.o h_grid.o h_image.o h_label.o h_listbox.o h_menu.o h_msgbox.o h_frame.o h_progressbar.o h_radio.o h_spinner.o h_tab.o h_textbox.o h_timer.o h_registry.o h_internal.o h_dll.o h_checklist.o
-   if errorlevel 2 goto END
-   %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a h_xbrowse.o h_activex.o c_activex.o h_textarray.o h_picture.o h_hotkeybox.o c_gdiplus.o h_anigif.o
+   for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% ) do (
+      if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a %%a.o
+      if     "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a %%a.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+      if errorlevel 2 goto END
+   )
+   echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\libbostaurus.a...
+   if exist bostaurus.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libbostaurus.a bostaurus.o
+   if exist bostaurus.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libbostaurus.a bostaurus.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if errorlevel 2 goto END
    echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\libhbprinter.a...
-   if exist winprint.o  %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libhbprinter.a winprint.o
+   if exist winprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libhbprinter.a winprint.o
+   if exist winprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libhbprinter.a winprint.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if errorlevel 2 goto END
    echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\libminiprint.a...
-   if exist miniprint.o %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libminiprint.a miniprint.o
+   if exist miniprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libminiprint.a miniprint.o
+   if exist miniprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libminiprint.a miniprint.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if errorlevel 2 goto END
-   echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\libbostaurus.a...
-   if exist bostaurus.o %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libbostaurus.a bostaurus.o
-   if errorlevel 2 goto END
+
    echo Build finished OK !!!
    del *.o /q
    del h_*.c /q
@@ -821,9 +1007,12 @@ REM TODO: Add manual's build here
    set "TPATH=%PATH%"
    set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
+   echo #include "%HG_ROOT%\INCLUDE\oohgversion.h" >> _oohg_resconfig.h
    copy /b mgide.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
-   windres -i _temp.rc -o _temp.o
-   hbmk2 mgide.hbp _temp.o %BEEP%
+
+   if not "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP%
+   if     "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+
    del _oohg_resconfig.h /q
    del _temp.* /q
    set "PATH=%TPATH%"
@@ -857,8 +1046,12 @@ REM TODO: Add manual's build here
    set "TPATH=%PATH%"
    set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
+   echo #include "%HG_ROOT%\INCLUDE\oohgversion.h" >> _oohg_resconfig.h
    copy /b %HG_ROOT%\resources\oohg.rc + ofmt.rc _temp.rc > nul
-   hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP%
+
+   if not "%REDIR%"=="YES" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP%
+   if     "%REDIR%"=="YES" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+
    del _oohg_resconfig.h /q
    del _temp.* /q
    set "PATH=%TPATH%"
@@ -871,6 +1064,7 @@ REM TODO: Add manual's build here
 
 :FMT_XBCC
 
+   if /I "%NOIDE%"=="T" goto END
    echo Building oFMT...
    cd fmt
    call compile.bat /nocls
@@ -879,17 +1073,20 @@ REM TODO: Add manual's build here
 
 :END
 
-   set BASE_DISTRO_DIR=
-   set CLEAN=
    set ADDCOMPS=
-   set NOIDE=
-   set INCRE=
-   set BEEP=
+   set BASE_DISTRO_DIR=
    set BASE_DISTRO_SUBDIR=
-   set TPATH=
+   set BEEP=
+   set CLEAN=
+   set HG_CFLAGS=
    set HG_FILES1_PRG=
    set HG_FILES2_PRG=
-   set HG_X_FLAGS=
    set HG_FILES_C=
+   set HG_LOG_FOLDER=
+   set HG_X_FLAGS=
+   set INCRE=
+   set NOIDE=
+   set REDIR=
+   set TPATH=
 
    echo End reached.

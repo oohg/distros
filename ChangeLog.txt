@@ -8,6 +8,11 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2020-05-31 20:48 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     ! Libs folder for HM3264 flavor.
+     + Creation of empty folders for (x)Harbour and C compilers.
+
 2020-05-30 08:43 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
    * distros\MakeExclude.txt

@@ -130,7 +130,7 @@ popd
 
    if /I "%1"=="HM3464" if "%HG_HRB%"   == "" set HG_HRB=C:\HB3464
    if /I "%1"=="HM3464" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB3464\COMP\MINGW
-   if /I "%1"=="HM3464" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb3464\mingw64
+   if /I "%1"=="HM3464" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb34\mingw64
    if /I "%1"=="HM3464" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\clang64
    if /I "%1"=="HM3464" if "%BIN_HRB%"  == "" set BIN_HRB=bin
    if /I "%1"=="HM3464" set HG_HM3464=YES
@@ -269,31 +269,76 @@ popd
    set BASE_DISTRO_SUBDIR=doc
    if not exist doc\nul md doc
    if not exist doc\nul goto ERROR3
-   if not "%ADDCOMPS%"=="T" goto FOLDERS_CONTINUE
    if /I "%1"=="HM30"   set BASE_DISTRO_SUBDIR=hb30
    if /I "%1"=="HM30"   if not exist hb30\nul md hb30
    if /I "%1"=="HM30"   if not exist hb30\nul goto ERROR3
+   if /I "%1"=="HM30"   if not exist hb30\comp\nul md hb30\comp
+   if /I "%1"=="HM30"   if not exist hb30\comp\nul goto ERROR3
+   if /I "%1"=="HM30"   echo Place Harbour 3.0 compiler in this folder! > hb30\readme.txt
+   if /I "%1"=="HM30"   echo Place MinGW compiler for Harbour 3.0 in this folder! > hb30\comp\readme.txt
    if /I "%1"=="HM32"   set BASE_DISTRO_SUBDIR=hb32
    if /I "%1"=="HM32"   if not exist hb32\nul md hb32
    if /I "%1"=="HM32"   if not exist hb32\nul goto ERROR3
+   if /I "%1"=="HM32"   if not exist hb32\comp\nul md hb32\comp
+   if /I "%1"=="HM32"   if not exist hb32\comp\nul goto ERROR3
+   if /I "%1"=="HM32"   echo Place Harbour 3.2 32-bits compiler in this folder! > hb32\readme.txt
+   if /I "%1"=="HM32"   echo Place MinGW compiler for Harbour 3.2 32 bits in this folder! > hb32\comp\readme.txt
    if /I "%1"=="HM3264" set BASE_DISTRO_SUBDIR=hb3264
    if /I "%1"=="HM3264" if not exist hb3264\nul md hb3264
    if /I "%1"=="HM3264" if not exist hb3264\nul goto ERROR3
+   if /I "%1"=="HM3264" if not exist hb3264\comp\nul md hb3264\comp
+   if /I "%1"=="HM3264" if not exist hb3264\comp\nul goto ERROR3
+   if /I "%1"=="HM3264" echo Place Harbour 3.2 64-bits compiler in this folder! > hb3264\readme.txt
+   if /I "%1"=="HM3264" echo Place MinGW compiler for Harbour 3.2 64 bits in this folder! > hb3264\comp\readme.txt
    if /I "%1"=="HM34"   set BASE_DISTRO_SUBDIR=hb34
    if /I "%1"=="HM34"   if not exist hb34\nul md hb34
    if /I "%1"=="HM34"   if not exist hb34\nul goto ERROR3
+   if /I "%1"=="HM34"   if not exist hb34\comp\nul md hb34\comp
+   if /I "%1"=="HM34"   if not exist hb34\comp\nul goto ERROR3
+   if /I "%1"=="HM34"   echo Place Harbour 3.4 32-bits compiler in this folder! > hb34\readme.txt
+   if /I "%1"=="HM34"   echo Place MinGW compiler for Harbour 3.4 32 bits in this folder! > hb34\comp\readme.txt
    if /I "%1"=="HM3464" set BASE_DISTRO_SUBDIR=hb3464
    if /I "%1"=="HM3464" if not exist hb3464\nul md hb3464
    if /I "%1"=="HM3464" if not exist hb3464\nul goto ERROR3
+   if /I "%1"=="HM3464" if not exist hb3464\comp\nul md hb3464\comp
+   if /I "%1"=="HM3464" if not exist hb3464\comp\nul goto ERROR3
+   if /I "%1"=="HM3464" echo Place Harbour 3.4 64-bits compiler in this folder! > hb3464\readme.txt
+   if /I "%1"=="HM3464" echo Place MinGW compiler for Harbour 3.4 64 bits in this folder! > hb3464\comp\readme.txt
    if /I "%1"=="XB55"   set BASE_DISTRO_SUBDIR=xhbcc
    if /I "%1"=="XB55"   if not exist xhbcc\nul md xhbcc
    if /I "%1"=="XB55"   if not exist xhbcc\nul goto ERROR3
+   if /I "%1"=="XB55"   if not exist xhbcc\comp\nul md xhbcc\comp
+   if /I "%1"=="XB55"   if not exist xhbcc\comp\nul goto ERROR3
+   if /I "%1"=="XB55"   echo Place xHarbour compiler in this folder! > xhbcc\readme.txt
+   if /I "%1"=="XB55"   echo Place BCC compiler for xHarbour in this folder! > xhbcc\comp\readme.txt
+   if /I "%1"=="XB55"   echo. >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB55"   echo Create a file named BCC32.CFG in C:\OOHG\XHBCC\COMP\BIN with this content: >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB55"   echo -I"C:\OOHG\XHBCC\COMP\INCLUDE" >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB55"   echo -L"C:\OOHG\XHBCC\COMP\LIB;C:\OOHG\XHBCC\COMP\LIB\PSDK" >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB55"   echo. >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB55"   echo Create a file named ILINK32.CFG in C:\OOHG\XHBCC\COMP\BIN with this content: >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB55"   echo -L"C:\OOHG\XHBCC\COMP\LIB;C:\OOHG\XHBCC\COMP\LIB\PSDK" >> xhbcc\comp\readme.txt
    if /I "%1"=="XB58"   set BASE_DISTRO_SUBDIR=xhbcc
    if /I "%1"=="XB58"   if not exist xhbcc\nul md xhbcc
    if /I "%1"=="XB58"   if not exist xhbcc\nul goto ERROR3
+   if /I "%1"=="XB58"   if not exist xhbcc\comp\nul md xhbcc\comp
+   if /I "%1"=="XB58"   if not exist xhbcc\comp\nul goto ERROR3
+   if /I "%1"=="XB58"   echo Place xHarbour compiler in this folder! > xhbcc\readme.txt
+   if /I "%1"=="XB58"   echo Place BCC compiler for xHarbour in this folder! > xhbcc\comp\readme.txt
+   if /I "%1"=="XB58"   echo. >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB58"   echo Create a file named BCC32.CFG in C:\OOHG\XHBCC\COMP\BIN with this content: >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB58"   echo -I"C:\OOHG\XHBCC\COMP\INCLUDE" >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB58"   echo -L"C:\OOHG\XHBCC\COMP\LIB;C:\OOHG\XHBCC\COMP\LIB\PSDK" >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB58"   echo. >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB58"   echo Create a file named ILINK32.CFG in C:\OOHG\XHBCC\COMP\BIN with this content: >> xhbcc\comp\readme.txt
+   if /I "%1"=="XB58"   echo -L"C:\OOHG\XHBCC\COMP\LIB;C:\OOHG\XHBCC\COMP\LIB\PSDK" >> xhbcc\comp\readme.txt
    if /I "%1"=="XM"     set BASE_DISTRO_SUBDIR=xhmingw
    if /I "%1"=="XM"     if not exist xhmingw\nul md xhmingw
    if /I "%1"=="XM"     if not exist xhmingw\nul goto ERROR3
+   if /I "%1"=="XM"     if not exist xhmingw\comp\nul md xhmingw\comp
+   if /I "%1"=="XM"     if not exist xhmingw\comp\nul goto ERROR3
+   if /I "%1"=="XM"     echo Place xHarbour compiler in this folder! > xhmingw\readme.txt
+   if /I "%1"=="XM"     echo Place MinGW compiler for xHarbour in this folder! > xhmingw\comp\readme.txt
 
 :FOLDERS_CONTINUE
 
@@ -846,13 +891,9 @@ REM TODO: Add manual's build here
 :BUILD_LIBSHM34
 
    if not "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP%
-   if not "%REDIR%"=="YES" echo.
    if not "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP%
-   if not "%REDIR%"=="YES" echo.
    if not "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP%
-   if not "%REDIR%"=="YES" echo.
    if not "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP%
-   if not "%REDIR%"=="YES" echo.
 
    if     "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1

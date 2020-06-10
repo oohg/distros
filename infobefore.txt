@@ -2,11 +2,11 @@
 OOHG -an acronym of Object Oriented (x)Harbour GUI- is an, easy to use, completely free, object oriented xBase development system for Windows, based on these tools:
 
 * OOHG libraries and preprocessor directives for defining GUI components.
-* OOHG IDE+ for defining windows interactively.
-* (x)Harbour Compiler for compiling xBase code into C code
-* C Compiler (MinGW or BCC) for compiling C code and linking into an exe.
+* OOHG IDE+ for defining forms and dialogs interactively.
+* (x)Harbour Compiler for compiling xBase code into C code.
+* C Compiler (MinGW or BCC) for compiling C code and linking into an executable.
 * Project support site at https://oohg.github.io
-* User support mail list at <https://groups.google.com/d/forum/oohg>
+* User support mail list at <https://groups.google.com/forum/#!forum/oohg>
 
 Enjoy the Power of OOHG !!!
 

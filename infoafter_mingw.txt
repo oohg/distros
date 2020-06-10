@@ -6,4 +6,4 @@ Note that the settings in the batch files are defaults, and that they will only 
 If you installed this package f.e. to F:\OOHG, before executing a batch file you must set this environment variable:
 set HG_ROOT=F:\OOHG
 
-For more information, please read the batch files or ask questions in the user's support group.
+For more information, please read the batch files or ask questions at the user's support group.

@@ -8,6 +8,24 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2020-06-10 19:30 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\.gitignore
+     + Added installer folder to exclusion list.
+
+2020-06-10 19:29 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\hb32mingw.iss
+     * Updated.
+
+2020-06-10 19:27 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   + distros\hb3264mingw.iss
+     Added for deploying HM3264 flavor.
+
+2020-06-10 19:26 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\infoafter_mingw.txt
+   * distros\infobefore.txt
+   * distros\license.txt
+     * Minor changes.
+
 2020-05-31 20:48 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      ! Libs folder for HM3264 flavor.

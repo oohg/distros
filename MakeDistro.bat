@@ -785,7 +785,7 @@ REM TODO: Add manual's build here
    if /I "%1"=="XB55"   call compileres_bcc.bat /NOCLS
    if /I "%1"=="XB58"   call compileres_bcc.bat /NOCLS
    if /I "%1"=="XM"     call compileres_mingw.bat /NOCLS XM
-   del _oohg_resconfig.h
+   if exist _oohg_resconfig.h del _oohg_resconfig.h
    ren _oohg_resconfig.bak _oohg_resconfig.h
    cd ..
 
@@ -966,7 +966,7 @@ REM TODO: Add manual's build here
    %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\hbprinter + winprint.obj > nul
    if errorlevel 1 goto END
    echo Build finished OK !!!
-   del %HG_ROOT%\%LIB_GUI%\*.bak /q > nul
+   del %HG_ROOT%\%LIB_GUI%\*.bak /q
    del *.obj /q
    del h_*.c /q
    del winprint.c /q

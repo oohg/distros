@@ -775,6 +775,7 @@ REM TODO: Add manual's build here
 
    echo Compiling resource file...
    cd resources
+   ren _oohg_resconfig.h _oohg_resconfig.bak
    set HG_ROOT=%BASE_DISTRO_DIR%
    if /I "%1"=="HM30"   call compileres_mingw.bat /NOCLS HM30
    if /I "%1"=="HM32"   call compileres_mingw.bat /NOCLS HM32
@@ -784,6 +785,8 @@ REM TODO: Add manual's build here
    if /I "%1"=="XB55"   call compileres_bcc.bat /NOCLS
    if /I "%1"=="XB58"   call compileres_bcc.bat /NOCLS
    if /I "%1"=="XM"     call compileres_mingw.bat /NOCLS XM
+   del _oohg_resconfig.h
+   ren _oohg_resconfig.bak _oohg_resconfig.h
    cd ..
 
 :BUILDLIBS

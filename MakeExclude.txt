@@ -63,7 +63,6 @@ build.bat
 mgide.hbp
 ofmt.hbp
 compile.bat
-_oohg_resconfig.h
 compileres_bcc.bat
 compileres_mingw.bat
 oohg.rc

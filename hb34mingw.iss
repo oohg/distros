@@ -1,18 +1,18 @@
-; $Id: hb32mingw.iss $
+; $Id: hb34mingw.iss $
 
 #define MyAppName "Object Oriented (x)Harbour GUI"
 #define MyAppVerO "v20.06.08.rc1"
-#define MyAppVerH "Harbour 3.2"
-#define MyAppVerC "MINGW 7.3.0"
-#define MyAppFile "oohg_hm32_v200608rc1"
+#define MyAppVerH "Harbour 3.4"
+#define MyAppVerC "MINGW 9.3.0"
+#define MyAppFile "oohg_hm34_v200608rc1"
 #define MyAppPublisher "The OOHG Developer Team"
 #define MyAppURL "https://oohg.github.io/"
-#if DirExists('W:\OOHG_HM32')
-   #define MySource "W:\OOHG_HM32\*"
-#elif DirExists('D:\OOHG_HM32')
-   #define MySource "D:\OOHG_HM32\*"
-#elif DirExists('C:\OOHG_HM32')
-   #define MySource "C:\OOHG_HM32\*"
+#if DirExists('W:\OOHG_HM34')
+   #define MySource "W:\OOHG_HM34\*"
+#elif DirExists('D:\OOHG_HM34')
+   #define MySource "D:\OOHG_HM34\*"
+#elif DirExists('C:\OOHG_HM34')
+   #define MySource "C:\OOHG_HM34\*"
 #else
    #error Input folder not found !!!
 #endif
@@ -21,7 +21,7 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{579EC994-B0FA-4265-A55A-A2666ABFEF78}
+AppId={{F79CBBB2-F613-4B15-B142-9ABB60F66396}
 AppName={#MyAppName}
 AppVersion={#MyAppVerO} based on {#MyAppVerH} and {#MyAppVerC}
 AppPublisher={#MyAppPublisher}

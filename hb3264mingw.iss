@@ -3,7 +3,7 @@
 #define MyAppName "Object Oriented (x)Harbour GUI"
 #define MyAppVerO "v20.06.08.rc1"
 #define MyAppVerH "Harbour 3.2"
-#define MyAppVerC "MINGW 7.3.0"
+#define MyAppVerC "MINGW 9.3.0"
 #define MyAppFile "oohg_hm3264_v200608rc1"
 #define MyAppPublisher "The OOHG Developer Team"
 #define MyAppURL "https://oohg.github.io/"
@@ -11,6 +11,8 @@
    #define MySource "W:\OOHG_HM3264\*"
 #elif DirExists('D:\OOHG_HM3264')
    #define MySource "D:\OOHG_HM3264\*"
+#elif DirExists('C:\OOHG_HM3264')
+   #define MySource "C:\OOHG_HM3264\*"
 #else
    #error Input folder not found !!!
 #endif
@@ -19,7 +21,7 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{579EC994-B0FA-4265-A55A-A2666ABFEF78}
+AppId={{9E0E46FC-1016-4395-B3ED-36441B5D5293}
 AppName={#MyAppName}
 AppVersion={#MyAppVerO} based on {#MyAppVerH} and {#MyAppVerC}
 AppPublisher={#MyAppPublisher}
@@ -67,7 +69,13 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 [Files]
 Source: {#MySource}; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "..\core\resources\_oohg_resconfig.h"; DestDir: "{app}\RESOURCES"; AfterInstall: WriteToFile
 
-[Icons]
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName} {#MyAppVerO} {#MyAppVerH} {#MyAppVerC}}"; Filename: "{uninstallexe}"
+[Code]
+procedure WriteToFile;
+begin
+  SaveStringToFile(
+     ExpandConstant('{app}\RESOURCES\_oohg_resconfig.h'), 
+     '#define oohgpath ' + ExpandConstant('{app}\RESOURCES') + #13#10 + 
+     '#include "' + ExpandConstant('{app}\INCLUDE\oohgversion.h') + '"' + #13#10, False);
+end;

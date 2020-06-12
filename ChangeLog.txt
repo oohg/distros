@@ -8,6 +8,30 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2020-06-11 21:54 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\hb30mingw.iss
+   * distros\hb3264mingw.iss
+   * distros\hb32mingw.iss
+   * distros\hb3464mingw.iss
+   * distros\hb34mingw.iss
+   + distros\xb55.iss
+   + distros\xb58.iss
+   - distros\xhbcc.iss
+   + distros\xm.iss
+     * Updated messages.
+     * Assigned unique ID.
+     + Customization of resources\_oohg_resconfig.h
+     - Entry on Start Menu.
+
+2020-06-11 19:54 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     * A message was suppresed.
+
+2020-06-11 18:51 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+   * distros\MakeExclude.txt
+     ! Wrong path of resources\_oohg_resconfig.h
+
 2020-06-10 19:30 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\.gitignore
      + Added installer folder to exclusion list.

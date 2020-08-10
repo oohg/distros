@@ -776,6 +776,8 @@ REM TODO: Add manual's build here
    echo Compiling resource file...
    cd resources
    ren _oohg_resconfig.h _oohg_resconfig.bak
+   echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
+   if not exist _oohg_resconfig.h goto ERROR3
    set HG_ROOT=%BASE_DISTRO_DIR%
    if /I "%1"=="HM30"   call compileres_mingw.bat /NOCLS HM30
    if /I "%1"=="HM32"   call compileres_mingw.bat /NOCLS HM32
@@ -950,7 +952,8 @@ REM TODO: Add manual's build here
    echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\oohg.lib...
    if exist %HG_ROOT%\%LIB_GUI%\oohg.lib del %HG_ROOT%\%LIB_GUI%\oohg.lib
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% ) do (
-      %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64 > nul
+      if not "%REDIR%"=="YES" %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64
+      if     "%REDIR%"=="YES" %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64 >> %HG_LOG_FOLDER%\make%1.txt 2>&1
       if errorlevel 1 goto END
    )
    echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\bostaurus.lib...
@@ -1051,14 +1054,13 @@ REM TODO: Add manual's build here
    set "TPATH=%PATH%"
    set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
-   echo #include "%HG_ROOT%\INCLUDE\oohgversion.h" >> _oohg_resconfig.h
-   copy /b mgide.rc + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
+   echo #define __VERSION_INFO >> _oohg_resconfig.h
+   copy /b %HG_ROOT%\resources\oohg.rc + mgide.rc _temp.rc > nul
 
    if not "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP%
    if     "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    del _oohg_resconfig.h /q
-   del _temp.* /q
    set "PATH=%TPATH%"
    set TPATH=
    attrib -s -h .hbmk /s /d
@@ -1090,7 +1092,7 @@ REM TODO: Add manual's build here
    set "TPATH=%PATH%"
    set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
-   echo #include "%HG_ROOT%\INCLUDE\oohgversion.h" >> _oohg_resconfig.h
+   echo #define __VERSION_INFO >> _oohg_resconfig.h
    copy /b %HG_ROOT%\resources\oohg.rc + ofmt.rc _temp.rc > nul
 
    if not "%REDIR%"=="YES" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP%

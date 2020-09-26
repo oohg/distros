@@ -8,6 +8,11 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2020-09-26 10:05 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     ! Incremental building of ide and fmt exes.
+     ! Resources order when building ide exe.
+
 2020-06-11 21:54 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\hb30mingw.iss
    * distros\hb3264mingw.iss

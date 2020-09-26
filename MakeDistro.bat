@@ -1055,7 +1055,8 @@ REM TODO: Add manual's build here
    set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
    echo #define __VERSION_INFO >> _oohg_resconfig.h
-   copy /b %HG_ROOT%\resources\oohg.rc + mgide.rc _temp.rc > nul
+   echo. > %HG_ROOT%\resources\filler
+   copy /b mgide.rc + %HG_ROOT%\resources\filler + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 
    if not "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP%
    if     "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
@@ -1063,10 +1064,12 @@ REM TODO: Add manual's build here
    del _oohg_resconfig.h /q
    set "PATH=%TPATH%"
    set TPATH=
-   attrib -s -h .hbmk /s /d
-   rd .hbmk /s /q
    echo.
    cd ..
+   if /I "%INCRE%"=="T" goto FMT_HBMK2
+   if not exist %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk\nul goto FMT_HBMK2
+   attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
+   rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
    goto FMT_HBMK2
 
 :OIDE_XBCC
@@ -1093,7 +1096,8 @@ REM TODO: Add manual's build here
    set "PATH=%HG_MINGW%\bin;%HG_HRB%\%BIN_HRB%"
    echo #define oohgpath %HG_ROOT%\RESOURCES > _oohg_resconfig.h
    echo #define __VERSION_INFO >> _oohg_resconfig.h
-   copy /b %HG_ROOT%\resources\oohg.rc + ofmt.rc _temp.rc > nul
+   echo. > %HG_ROOT%\resources\filler
+   copy /b ofmt.rc + %HG_ROOT%\resources\filler + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 
    if not "%REDIR%"=="YES" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP%
    if     "%REDIR%"=="YES" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
@@ -1102,10 +1106,12 @@ REM TODO: Add manual's build here
    del _temp.* /q
    set "PATH=%TPATH%"
    set TPATH=
-   if exist .hbmk\nul attrib -s -h .hbmk /s /d
-   if exist .hbmk\nul rd .hbmk /s /q
    echo.
    cd ..
+   if /I "%INCRE%"=="T" goto END
+   if not exist %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk\nul goto END
+   attrib -s -h %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /d
+   rd %BASE_DISTRO_DIR%\%LIB_GUI%\.hbmk /s /q
    goto END
 
 :FMT_XBCC

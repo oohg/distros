@@ -8,6 +8,11 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2021-07-08 16:44 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     + /PO+ y /PO- switches to create/erase preprocessor output files.
+     * Constant YES replace by T.
+
 2020-09-26 10:05 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      ! Incremental building of ide and fmt exes.

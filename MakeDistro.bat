@@ -21,7 +21,7 @@ popd
    if /I "%1"=="XB58"   goto CONTINUE
    if /I "%1"=="XM"     goto CONTINUE
    echo.
-   echo Usage: MakeDistro FLAVOR [ /C ] [ /L ] [ /I ] [ /S ] [ /A ] [ /P ] [ /F ]
+   echo Usage: MakeDistro FLAVOR [ /C ] [ /L ] [ /I ] [ /S ] [ /A ] [ /P ] [ /F ] [ /PO+ ] [ /PO- ]
    echo where
    echo FLAVOR is one of the following
    echo   HM30   - Harbour 3.0 and MinGW
@@ -32,13 +32,15 @@ popd
    echo   XB55   - xHarbour and BCC 5.5.1
    echo   XB58   - xHarbour and BCC 5.8.2
    echo   XM     - xHarbour and MinGW
-   echo /C means erase destination folder before building
-   echo /L means build libraries only
-   echo /I means use incremental building
-   echo /S means don't beep on exit
-   echo /A means copy (x)Harbour and MinGW compilers
-   echo /P means treat warnings at C level as errors
-   echo /F means redirect build log to file makeFLAVOR.txt
+   echo /C   means erase destination folder before building
+   echo /L   means build libraries only
+   echo /I   means use incremental building
+   echo /S   means don't beep on exit
+   echo /A   means copy (x)Harbour and MinGW compilers
+   echo /P   means treat warnings at C level as errors (pedantic)
+   echo /F   means redirect build log to file makeFLAVOR.txt
+   echo /PO+ means create preprocessor output files
+   echo /PO- means erase preprocessor output files
    echo.
    goto END
 
@@ -204,52 +206,92 @@ popd
 
 :PARSE_SWITCHES
 
-   set REDIR=NO
-   if /I "%2"=="/F" set REDIR=YES
-   if /I "%3"=="/F" set REDIR=YES
-   if /I "%4"=="/F" set REDIR=YES
-   if /I "%5"=="/F" set REDIR=YES
-   if /I "%6"=="/F" set REDIR=YES
+   set DELPPO=F
+   if /I "%2"=="/PO-" set DELPPO=T
+   if /I "%3"=="/PO-" set DELPPO=T
+   if /I "%4"=="/PO-" set DELPPO=T
+   if /I "%5"=="/PO-" set DELPPO=T
+   if /I "%6"=="/PO-" set DELPPO=T
+   if /I "%7"=="/PO-" set DELPPO=T
+   if /I "%8"=="/PO-" set DELPPO=T
+   if /I "%9"=="/PO-" set DELPPO=T
+   set HG_PFLAGS=
+   if /I "%2"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   if /I "%3"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   if /I "%4"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   if /I "%5"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   if /I "%6"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   if /I "%7"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   if /I "%8"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   if /I "%9"=="/PO+" set HG_PFLAGS=-prgflag=/p
+   set REDIR=F
+   if /I "%2"=="/F" set REDIR=T
+   if /I "%3"=="/F" set REDIR=T
+   if /I "%4"=="/F" set REDIR=T
+   if /I "%5"=="/F" set REDIR=T
+   if /I "%6"=="/F" set REDIR=T
+   if /I "%7"=="/F" set REDIR=T
+   if /I "%8"=="/F" set REDIR=T
+   if /I "%9"=="/F" set REDIR=T
    set HG_CFLAGS=
    if /I "%2"=="/P" set HG_CFLAGS=pedantic
    if /I "%3"=="/P" set HG_CFLAGS=pedantic
    if /I "%4"=="/P" set HG_CFLAGS=pedantic
    if /I "%5"=="/P" set HG_CFLAGS=pedantic
    if /I "%6"=="/P" set HG_CFLAGS=pedantic
+   if /I "%7"=="/P" set HG_CFLAGS=pedantic
+   if /I "%8"=="/P" set HG_CFLAGS=pedantic
+   if /I "%9"=="/P" set HG_CFLAGS=pedantic
    set CLEAN=F
    if /I "%2"=="/C" set CLEAN=T
    if /I "%3"=="/C" set CLEAN=T
    if /I "%4"=="/C" set CLEAN=T
    if /I "%5"=="/C" set CLEAN=T
    if /I "%6"=="/C" set CLEAN=T
+   if /I "%7"=="/C" set CLEAN=T
+   if /I "%8"=="/C" set CLEAN=T
+   if /I "%9"=="/C" set CLEAN=T
    set ADDCOMPS=F
    if /I "%2"=="/A" set ADDCOMPS=T
    if /I "%3"=="/A" set ADDCOMPS=T
    if /I "%4"=="/A" set ADDCOMPS=T
    if /I "%5"=="/A" set ADDCOMPS=T
    if /I "%6"=="/A" set ADDCOMPS=T
+   if /I "%7"=="/A" set ADDCOMPS=T
+   if /I "%8"=="/A" set ADDCOMPS=T
+   if /I "%9"=="/A" set ADDCOMPS=T
    set NOIDE=F
    if /I "%2"=="/L" set NOIDE=T
    if /I "%3"=="/L" set NOIDE=T
    if /I "%4"=="/L" set NOIDE=T
    if /I "%5"=="/L" set NOIDE=T
    if /I "%6"=="/L" set NOIDE=T
+   if /I "%7"=="/L" set NOIDE=T
+   if /I "%8"=="/L" set NOIDE=T
+   if /I "%9"=="/L" set NOIDE=T
    set INCRE=F
    if /I "%2"=="/I" set INCRE=T
    if /I "%3"=="/I" set INCRE=T
    if /I "%4"=="/I" set INCRE=T
    if /I "%5"=="/I" set INCRE=T
    if /I "%6"=="/I" set INCRE=T
+   if /I "%7"=="/I" set INCRE=T
+   if /I "%8"=="/I" set INCRE=T
+   if /I "%9"=="/I" set INCRE=T
    set BEEP=
    if /I "%2"=="/S" set BEEP=-beep-
    if /I "%3"=="/S" set BEEP=-beep-
    if /I "%4"=="/S" set BEEP=-beep-
    if /I "%5"=="/S" set BEEP=-beep-
    if /I "%6"=="/S" set BEEP=-beep-
+   if /I "%7"=="/S" set BEEP=-beep-
+   if /I "%8"=="/S" set BEEP=-beep-
+   if /I "%9"=="/S" set BEEP=-beep-
 
    if exist %HG_LOG_FOLDER%\make%1.txt del %HG_LOG_FOLDER%\make%1.txt
 
    if not exist %BASE_DISTRO_DIR%\nul goto CREATE
+   if "%DELPPO%"=="T" del /f /s /q %BASE_DISTRO_DIR%\*.ppo > nul
    if not "%CLEAN%"=="T" goto CREATE
 
    del /f /s /q %BASE_DISTRO_DIR%\*.* > nul
@@ -817,19 +859,19 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM30
 
-   if not "%REDIR%"=="YES" hbmk2 oohg.hbp
-   if not "%REDIR%"=="YES" hbmk2 bostaurus.hbp
-   if not "%REDIR%"=="YES" hbmk2 miniprint.hbp
-   if not "%REDIR%"=="YES" hbmk2 hbprinter.hbp
+   if not "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS%
+   if not "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS%
+   if not "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS%
+   if not "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS%
 
-   if     "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    set "PATH=%TPATH%"
    set TPATH=
@@ -856,19 +898,19 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM32
 
-   if not "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP%
-   if not "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP%
-   if not "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP%
-   if not "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP%
+   if not "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP%
 
-   if     "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    set "PATH=%TPATH%"
    set TPATH=
@@ -895,19 +937,19 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM34
 
-   if not "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP%
-   if not "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP%
-   if not "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP%
-   if not "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP%
+   if not "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP%
 
-   if     "%REDIR%"=="YES" hbmk2 oohg.hbp      %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 bostaurus.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 miniprint.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" hbmk2 hbprinter.hbp %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="YES" echo.                      >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    set "PATH=%TPATH%"
    set TPATH=
@@ -929,8 +971,8 @@ REM TODO: Add manual's build here
    set HG_FILES1_PRG=h_error h_windows h_form h_ipaddress h_monthcal h_help h_status h_tree h_toolbar h_init h_media h_winapimisc h_slider h_button h_checkbox h_combo h_controlmisc h_datepicker h_editbox h_dialogs h_grid h_image h_label h_listbox h_menu h_msgbox h_frame h_progressbar h_radio h_spinner h_tab h_textbox h_application h_notify
    set HG_FILES2_PRG=h_graph h_richeditbox h_edit h_edit_ex h_scrsaver h_browse h_crypt h_zip h_comm h_print h_scroll h_splitbox h_progressmeter h_scrollbutton h_xbrowse h_internal h_textarray h_hotkeybox h_activex h_pdf h_hotkey h_hyperlink h_tooltip h_picture h_dll h_checklist h_timer h_cursor h_ini h_report h_registry h_anigif
    set HG_X_FLAGS=-i"%HG_HRB%\include;%HG_ROOT%\include" -n1 -gc0 -q0
-   if not "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
-   if     "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if not "%REDIR%"=="T" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
+   if     "%REDIR%"=="T" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if not errorlevel 1 goto LIBSXB_BCC
    if /I "%1"=="XB55" echo Error building XB55 libs!
    if /I "%1"=="XB58" echo Error building XB58 libs!
@@ -942,8 +984,8 @@ REM TODO: Add manual's build here
    set HG_X_FLAGS=-c -O2 -tW -tWM -d -a8 -OS -5 -6 -w -I%HG_HRB%\include;%HG_BCC%\include;%HG_ROOT%\include; -L%HG_HRB%\%LIB_HRB%;%HG_BCC%\lib;
    set HG_FILES_C=c_media c_controlmisc c_resource c_cursor c_font c_dialogs c_windows c_image c_msgbox c_winapimisc c_scrsaver c_graph c_activex c_gdiplus
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% miniprint winprint bostaurus ) do (
-      if not "%REDIR%"=="YES" %HG_BCC%\bin\bcc32 %HG_X_FLAGS% %%a.c
-      if     "%REDIR%"=="YES" %HG_BCC%\bin\bcc32 %HG_X_FLAGS% %%a.c >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+      if not "%REDIR%"=="T" %HG_BCC%\bin\bcc32 %HG_X_FLAGS% %%a.c
+      if     "%REDIR%"=="T" %HG_BCC%\bin\bcc32 %HG_X_FLAGS% %%a.c >> %HG_LOG_FOLDER%\make%1.txt 2>&1
       if errorlevel 1 goto END
    )
 
@@ -952,8 +994,8 @@ REM TODO: Add manual's build here
    echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\oohg.lib...
    if exist %HG_ROOT%\%LIB_GUI%\oohg.lib del %HG_ROOT%\%LIB_GUI%\oohg.lib
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% ) do (
-      if not "%REDIR%"=="YES" %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64
-      if     "%REDIR%"=="YES" %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64 >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+      if not "%REDIR%"=="T" %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64
+      if     "%REDIR%"=="T" %HG_BCC%\bin\tlib %HG_ROOT%\%LIB_GUI%\oohg + %%a.obj /P64 >> %HG_LOG_FOLDER%\make%1.txt 2>&1
       if errorlevel 1 goto END
    )
    echo TLIB: Building library %HG_ROOT%\%LIB_GUI%\bostaurus.lib...
@@ -992,8 +1034,8 @@ REM TODO: Add manual's build here
    set HG_FILES1_PRG=h_error h_windows h_form h_ipaddress h_monthcal h_help h_status h_tree h_toolbar h_init h_media h_winapimisc h_slider h_button h_checkbox h_combo h_controlmisc h_datepicker h_editbox h_dialogs h_grid h_image h_label h_listbox h_menu h_msgbox h_frame h_progressbar h_radio h_spinner h_tab h_textbox h_application h_notify
    set HG_FILES2_PRG=h_graph h_richeditbox h_edit h_edit_ex h_scrsaver h_browse h_crypt h_zip h_comm h_print h_scroll h_splitbox h_progressmeter h_scrollbutton h_xbrowse h_internal h_textarray h_hotkeybox h_activex h_pdf h_hotkey h_hyperlink h_tooltip h_picture h_dll h_checklist h_timer h_cursor h_ini h_report h_registry h_anigif
    set HG_X_FLAGS=-i"%HG_HRB%\include;%HG_ROOT%\include" -n1 -gc0 -q0
-   if not "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
-   if     "%REDIR%"=="YES" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if not "%REDIR%"=="T" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS%
+   if     "%REDIR%"=="T" %HG_HRB%\%BIN_HRB%\harbour %HG_FILES1_PRG% %HG_FILES2_PRG% miniprint winprint bostaurus %HG_X_FLAGS% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if not errorlevel 1 goto LIBSXM_GCC
    echo Error building XM libs!
    goto END
@@ -1006,8 +1048,8 @@ REM TODO: Add manual's build here
    set HG_X_FLAGS=-W -Wall -O3 -c -I%HG_HRB%\include -I%HG_MINGW%\include -I%HG_ROOT%\include -L%HG_HRB%\%LIB_HRB% -L%HG_MINGW%\lib
    set HG_FILES_C=c_media c_controlmisc c_resource c_cursor c_font c_dialogs c_windows c_image c_msgbox c_winapimisc c_scrsaver c_graph c_activex c_gdiplus
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% miniprint winprint bostaurus ) do (
-      if not "%REDIR%"=="YES" gcc %HG_X_FLAGS% %%a.c
-      if     "%REDIR%"=="YES" gcc %HG_X_FLAGS% %%a.c >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+      if not "%REDIR%"=="T" gcc %HG_X_FLAGS% %%a.c
+      if     "%REDIR%"=="T" gcc %HG_X_FLAGS% %%a.c >> %HG_LOG_FOLDER%\make%1.txt 2>&1
       if errorlevel 1 goto END
    )
 
@@ -1015,21 +1057,21 @@ REM TODO: Add manual's build here
 
    echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\liboohg.a...
    for %%a in ( %HG_FILES1_PRG% %HG_FILES2_PRG% %HG_FILES_C% ) do (
-      if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a %%a.o
-      if     "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a %%a.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+      if not "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a %%a.o
+      if     "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\liboohg.a %%a.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
       if errorlevel 2 goto END
    )
    echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\libbostaurus.a...
-   if exist bostaurus.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libbostaurus.a bostaurus.o
-   if exist bostaurus.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libbostaurus.a bostaurus.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if exist bostaurus.o if not "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libbostaurus.a bostaurus.o
+   if exist bostaurus.o if not "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libbostaurus.a bostaurus.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if errorlevel 2 goto END
    echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\libhbprinter.a...
-   if exist winprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libhbprinter.a winprint.o
-   if exist winprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libhbprinter.a winprint.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if exist winprint.o if not "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libhbprinter.a winprint.o
+   if exist winprint.o if not "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libhbprinter.a winprint.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if errorlevel 2 goto END
    echo AR: Creating archive %HG_ROOT%\%LIB_GUI%\libminiprint.a...
-   if exist miniprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libminiprint.a miniprint.o
-   if exist miniprint.o if not "%REDIR%"=="YES" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libminiprint.a miniprint.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if exist miniprint.o if not "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libminiprint.a miniprint.o
+   if exist miniprint.o if not "%REDIR%"=="T" %HG_MINGW%\bin\ar rc %HG_ROOT%\%LIB_GUI%\libminiprint.a miniprint.o >> %HG_LOG_FOLDER%\make%1.txt 2>&1
    if errorlevel 2 goto END
 
    echo Build finished OK !!!
@@ -1058,8 +1100,8 @@ REM TODO: Add manual's build here
    echo. > %HG_ROOT%\resources\filler
    copy /b mgide.rc + %HG_ROOT%\resources\filler + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 
-   if not "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP%
-   if     "%REDIR%"=="YES" hbmk2 mgide.hbp _temp.rc %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if not "%REDIR%"=="T" hbmk2 mgide.hbp _temp.rc %HG_PFLAGS% %BEEP%
+   if     "%REDIR%"=="T" hbmk2 mgide.hbp _temp.rc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    del _oohg_resconfig.h /q
    set "PATH=%TPATH%"
@@ -1099,8 +1141,8 @@ REM TODO: Add manual's build here
    echo. > %HG_ROOT%\resources\filler
    copy /b ofmt.rc + %HG_ROOT%\resources\filler + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 
-   if not "%REDIR%"=="YES" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP%
-   if     "%REDIR%"=="YES" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if not "%REDIR%"=="T" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %HG_PFLAGS% %BEEP%
+   if     "%REDIR%"=="T" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    del _oohg_resconfig.h /q
    del _temp.* /q
@@ -1130,7 +1172,9 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=
    set BEEP=
    set CLEAN=
+   set DELPPO=
    set HG_CFLAGS=
+   set HG_PFLAGS=
    set HG_FILES1_PRG=
    set HG_FILES2_PRG=
    set HG_FILES_C=

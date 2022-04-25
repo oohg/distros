@@ -124,14 +124,14 @@ popd
    if /I "%1"=="HM3264" set HG_HM3264=YES
 
    if /I "%1"=="HM34" if "%HG_HRB%"     == "" set HG_HRB=C:\HB34
-   if /I "%1"=="HM34" if "%HG_MINGW%"   == "" set HG_MINGW=C:\HB34\COMP\MINGW
+   if /I "%1"=="HM34" if "%HG_MINGW%"   == "" set HG_MINGW=C:\MSYS64\MINGW32
    if /I "%1"=="HM34" if "%LIB_GUI%"    == "" set LIB_GUI=lib\hb34\mingw
    if /I "%1"=="HM34" if "%LIB_HRB%"    == "" set LIB_HRB=lib\win\clang
    if /I "%1"=="HM34" if "%BIN_HRB%"    == "" set BIN_HRB=bin
    if /I "%1"=="HM34" set HG_HM34=YES
 
    if /I "%1"=="HM3464" if "%HG_HRB%"   == "" set HG_HRB=C:\HB3464
-   if /I "%1"=="HM3464" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB3464\COMP\MINGW
+   if /I "%1"=="HM3464" if "%HG_MINGW%" == "" set HG_MINGW=C:\MSYS64\MINGW64
    if /I "%1"=="HM3464" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb34\mingw64
    if /I "%1"=="HM3464" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\clang64
    if /I "%1"=="HM3464" if "%BIN_HRB%"  == "" set BIN_HRB=bin
@@ -338,14 +338,14 @@ popd
    if /I "%1"=="HM34"   if not exist hb34\comp\nul md hb34\comp
    if /I "%1"=="HM34"   if not exist hb34\comp\nul goto ERROR3
    if /I "%1"=="HM34"   echo Place Harbour 3.4 32-bits compiler in this folder! > hb34\readme.txt
-   if /I "%1"=="HM34"   echo Place MinGW compiler for Harbour 3.4 32 bits in this folder! > hb34\comp\readme.txt
+   if /I "%1"=="HM34"   echo Place MSYS2 MinGW compiler for Harbour 3.4 32 bits in this folder! > hb34\comp\readme.txt
    if /I "%1"=="HM3464" set BASE_DISTRO_SUBDIR=hb3464
    if /I "%1"=="HM3464" if not exist hb3464\nul md hb3464
    if /I "%1"=="HM3464" if not exist hb3464\nul goto ERROR3
    if /I "%1"=="HM3464" if not exist hb3464\comp\nul md hb3464\comp
    if /I "%1"=="HM3464" if not exist hb3464\comp\nul goto ERROR3
    if /I "%1"=="HM3464" echo Place Harbour 3.4 64-bits compiler in this folder! > hb3464\readme.txt
-   if /I "%1"=="HM3464" echo Place MinGW compiler for Harbour 3.4 64 bits in this folder! > hb3464\comp\readme.txt
+   if /I "%1"=="HM3464" echo Place MSYS2 MinGW compiler for Harbour 3.4 64 bits in this folder! > hb3464\comp\readme.txt
    if /I "%1"=="XB55"   set BASE_DISTRO_SUBDIR=xhbcc
    if /I "%1"=="XB55"   if not exist xhbcc\nul md xhbcc
    if /I "%1"=="XB55"   if not exist xhbcc\nul goto ERROR3
@@ -480,7 +480,9 @@ REM TODO: Add manual's build here
    if not exist hb30\nul goto ERROR5
    cd hb30
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist readme.txt del readme.txt
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" if exist comp\readme.txt del comp\readme.txt
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
@@ -491,6 +493,7 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=mingw
    if not exist mingw\nul md mingw
    if not exist mingw\nul goto ERROR5
+   if exist readme.txt del readme.txt
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
    cd ..
@@ -503,10 +506,12 @@ REM TODO: Add manual's build here
    if /I not "%1"=="HM32" goto HM3264
    echo Copying HM32...
    set BASE_DISTRO_SUBDIR=hb32
-   if not exist hb32\nul goto ERROR5
    cd hb32
+   if exist readme.txt del readme.txt
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist readme.txt del readme.txt
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" if exist comp\readme.txt del comp\readme.txt
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
@@ -517,6 +522,7 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=mingw
    if not exist mingw\nul md mingw
    if not exist mingw\nul goto ERROR5
+   if exist readme.txt del readme.txt
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
    cd ..
@@ -532,7 +538,9 @@ REM TODO: Add manual's build here
    if not exist hb3264\nul goto ERROR5
    cd hb3264
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist readme.txt del readme.txt
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" if exist comp\readme.txt del comp\readme.txt
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
@@ -543,6 +551,7 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=mingw
    if not exist mingw\nul md mingw
    if not exist mingw\nul goto ERROR5
+   if exist readme.txt del readme.txt
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
    cd ..
@@ -558,7 +567,9 @@ REM TODO: Add manual's build here
    if not exist hb34\nul goto ERROR5
    cd hb34
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist readme.txt del readme.txt
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" if exist comp\readme.txt del comp\readme.txt
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
@@ -569,6 +580,7 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=mingw
    if not exist mingw\nul md mingw
    if not exist mingw\nul goto ERROR5
+   if exist readme.txt del readme.txt
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
    cd ..
@@ -584,7 +596,9 @@ REM TODO: Add manual's build here
    if not exist hb3464\nul goto ERROR5
    cd hb3464
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist readme.txt del readme.txt
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" if exist comp\readme.txt del comp\readme.txt
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
@@ -595,6 +609,7 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=mingw
    if not exist mingw\nul md mingw
    if not exist mingw\nul goto ERROR5
+   if exist readme.txt del readme.txt
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
    cd ..
@@ -615,7 +630,9 @@ REM TODO: Add manual's build here
    if not exist xhbcc\nul goto ERROR5
    cd xhbcc
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist readme.txt del readme.txt
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_BCC%" == "%HG_HRB%\COMP\BCC" if exist comp\readme.txt del comp\readme.txt
    if /I "%HG_BCC%" == "%HG_HRB%\COMP\BCC" cd ..
    if /I "%HG_BCC%" == "%HG_HRB%\COMP\BCC" echo.
    if /I "%HG_BCC%" == "%HG_HRB%\COMP\BCC" goto IDE
@@ -626,6 +643,7 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=bcc
    if not exist bcc\nul md bcc
    if not exist bcc\nul goto ERROR5
+   if exist readme.txt del readme.txt
    cd bcc
    xcopy %HG_BCC%\*.* /r /s /e /c /q /y /d
    cd ..
@@ -635,13 +653,16 @@ REM TODO: Add manual's build here
 
 :XM
 
+echo on
    if /I not "%1"=="XM" goto IDE
    echo Copying xHarbour...
    set BASE_DISTRO_SUBDIR=xhmingw
    if not exist xhmingw\nul goto ERROR5
    cd xhmingw
    xcopy %HG_HRB%\*.* /r /s /e /c /q /y /d
+   if exist readme.txt del readme.txt
    if exist uninstall.exe del uninstall.exe
+   if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" if exist comp\readme.txt del comp\readme.txt
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" cd ..
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" echo.
    if /I "%HG_MINGW%" == "%HG_HRB%\COMP\MINGW" goto IDE
@@ -652,6 +673,7 @@ REM TODO: Add manual's build here
    set BASE_DISTRO_SUBDIR=mingw
    if not exist mingw\nul md mingw
    if not exist mingw\nul goto ERROR5
+   if exist readme.txt del readme.txt
    cd mingw
    xcopy %HG_MINGW%\*.* /r /s /e /c /q /y /d
    cd ..
@@ -859,19 +881,19 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM30
 
-   if not "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS%
-   if not "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS%
-   if not "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS%
-   if not "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN oohg.hbp      %HG_PFLAGS%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN bostaurus.hbp %HG_PFLAGS%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN miniprint.hbp %HG_PFLAGS%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN hbprinter.hbp %HG_PFLAGS%
 
-   if     "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    set "PATH=%TPATH%"
    set TPATH=
@@ -898,19 +920,19 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM32
 
-   if not "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP%
-   if not "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP%
-   if not "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP%
-   if not "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN oohg.hbp      %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN bostaurus.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN miniprint.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN hbprinter.hbp %HG_PFLAGS% %BEEP%
 
-   if     "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    set "PATH=%TPATH%"
    set TPATH=
@@ -937,19 +959,19 @@ REM TODO: Add manual's build here
 
 :BUILD_LIBSHM34
 
-   if not "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP%
-   if not "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP%
-   if not "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP%
-   if not "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN oohg.hbp      %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN bostaurus.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN miniprint.hbp %HG_PFLAGS% %BEEP%
+   if not "%REDIR%"=="T" hbmk2 -lang=EN hbprinter.hbp %HG_PFLAGS% %BEEP%
 
-   if     "%REDIR%"=="T" hbmk2 oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" hbmk2 hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
-   if     "%REDIR%"=="T" echo.                                  >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN oohg.hbp      %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN bostaurus.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN miniprint.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" hbmk2 -lang=EN hbprinter.hbp %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if     "%REDIR%"=="T" echo.                                           >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    set "PATH=%TPATH%"
    set TPATH=
@@ -1100,8 +1122,8 @@ REM TODO: Add manual's build here
    echo. > %HG_ROOT%\resources\filler
    copy /b mgide.rc + %HG_ROOT%\resources\filler + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 
-   if not "%REDIR%"=="T" hbmk2 mgide.hbp _temp.rc %HG_PFLAGS% %BEEP%
-   if     "%REDIR%"=="T" hbmk2 mgide.hbp _temp.rc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if not "%REDIR%"=="T" hbmk2 -lang=EN mgide.hbp _temp.rc %HG_PFLAGS% %BEEP%
+   if     "%REDIR%"=="T" hbmk2 -lang=EN mgide.hbp _temp.rc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    del _oohg_resconfig.h /q
    set "PATH=%TPATH%"
@@ -1141,8 +1163,8 @@ REM TODO: Add manual's build here
    echo. > %HG_ROOT%\resources\filler
    copy /b ofmt.rc + %HG_ROOT%\resources\filler + %HG_ROOT%\resources\oohg.rc _temp.rc > nul
 
-   if not "%REDIR%"=="T" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %HG_PFLAGS% %BEEP%
-   if     "%REDIR%"=="T" hbmk2 ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
+   if not "%REDIR%"=="T" hbmk2 -lang=EN ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %HG_PFLAGS% %BEEP%
+   if     "%REDIR%"=="T" hbmk2 -lang=EN ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    del _oohg_resconfig.h /q
    del _temp.* /q

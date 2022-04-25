@@ -5,7 +5,6 @@
 \.github\
 \workinprogress\
 \distros\
-\doc\spanish\
 bostaurus.hbp
 buildapp.bat
 buildapp_hbmk2.bat

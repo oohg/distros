@@ -8,6 +8,10 @@
  * 2002-12-01 23:12 UTC+0100 Foo Bar <foo.bar@foobar.org>
  */
 
+2022-05-29 11:29 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
+   * distros\MakeDistro.bat
+     ! _temp.rc file is not removed.
+
 2021-07-08 16:44 UTC-0300 Fernando Yurisich <fyurisich@oohg.org>
    * distros\MakeDistro.bat
      + /PO+ y /PO- switches to create/erase preprocessor output files.

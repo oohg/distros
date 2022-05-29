@@ -1126,6 +1126,7 @@ echo on
    if     "%REDIR%"=="T" hbmk2 -lang=EN mgide.hbp _temp.rc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    del _oohg_resconfig.h /q
+   del _temp.rc /q
    set "PATH=%TPATH%"
    set TPATH=
    echo.
@@ -1167,7 +1168,7 @@ echo on
    if     "%REDIR%"=="T" hbmk2 -lang=EN ofmt.hbp _temp.rc %HG_ROOT%\oohg.hbc %HG_PFLAGS% %BEEP% >> %HG_LOG_FOLDER%\make%1.txt 2>&1
 
    del _oohg_resconfig.h /q
-   del _temp.* /q
+   del _temp.rc /q
    set "PATH=%TPATH%"
    set TPATH=
    echo.

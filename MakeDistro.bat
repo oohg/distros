@@ -93,70 +93,53 @@ popd
    rem Change these sets to use different sources for OOHG, Harbour and MinGW
    if "%HG_ROOT%" == "" set HG_ROOT=C:\OOHG
 
-   set HG_HM30=
-   set HG_HM32=
-   set HG_HM3264=
-   set HG_HM34=
-   set HG_HM3464=
-   set HG_XB55=
-   set HG_XB58=
-   set HG_XM=
-
    if /I "%1"=="HM30" if "%HG_HRB%"     == "" set HG_HRB=C:\HB30
    if /I "%1"=="HM30" if "%HG_MINGW%"   == "" set HG_MINGW=C:\HB30\COMP\MINGW
    if /I "%1"=="HM30" if "%LIB_GUI%"    == "" set LIB_GUI=lib
    if /I "%1"=="HM30" if "%LIB_HRB%"    == "" set LIB_HRB=lib
    if /I "%1"=="HM30" if "%BIN_HRB%"    == "" set BIN_HRB=bin
-   if /I "%1"=="HM30" set HG_HM30=YES
 
    if /I "%1"=="HM32" if "%HG_HRB%"     == "" set HG_HRB=C:\HB32
    if /I "%1"=="HM32" if "%HG_MINGW%"   == "" set HG_MINGW=C:\HB32\COMP\MINGW
    if /I "%1"=="HM32" if "%LIB_GUI%"    == "" set LIB_GUI=lib\hb\mingw
    if /I "%1"=="HM32" if "%LIB_HRB%"    == "" set LIB_HRB=lib\win\mingw
    if /I "%1"=="HM32" if "%BIN_HRB%"    == "" set BIN_HRB=bin
-   if /I "%1"=="HM32" set HG_HM32=YES
 
    if /I "%1"=="HM3264" if "%HG_HRB%"   == "" set HG_HRB=C:\HB3264
    if /I "%1"=="HM3264" if "%HG_MINGW%" == "" set HG_MINGW=C:\HB3264\COMP\MINGW
    if /I "%1"=="HM3264" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb\mingw64
    if /I "%1"=="HM3264" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\mingw64
    if /I "%1"=="HM3264" if "%BIN_HRB%"  == "" set BIN_HRB=bin
-   if /I "%1"=="HM3264" set HG_HM3264=YES
 
    if /I "%1"=="HM34" if "%HG_HRB%"     == "" set HG_HRB=C:\HB34
    if /I "%1"=="HM34" if "%HG_MINGW%"   == "" set HG_MINGW=C:\MSYS64\MINGW32
    if /I "%1"=="HM34" if "%LIB_GUI%"    == "" set LIB_GUI=lib\hb34\mingw
    if /I "%1"=="HM34" if "%LIB_HRB%"    == "" set LIB_HRB=lib\win\clang
    if /I "%1"=="HM34" if "%BIN_HRB%"    == "" set BIN_HRB=bin
-   if /I "%1"=="HM34" set HG_HM34=YES
 
    if /I "%1"=="HM3464" if "%HG_HRB%"   == "" set HG_HRB=C:\HB3464
    if /I "%1"=="HM3464" if "%HG_MINGW%" == "" set HG_MINGW=C:\MSYS64\MINGW64
    if /I "%1"=="HM3464" if "%LIB_GUI%"  == "" set LIB_GUI=lib\hb34\mingw64
    if /I "%1"=="HM3464" if "%LIB_HRB%"  == "" set LIB_HRB=lib\win\clang64
    if /I "%1"=="HM3464" if "%BIN_HRB%"  == "" set BIN_HRB=bin
-   if /I "%1"=="HM3464" set HG_HM3464=YES
 
    if /I "%1"=="XB55" if "%HG_HRB%"     == "" set HG_HRB=C:\XHBCC
    if /I "%1"=="XB55" if "%HG_BCC%"     == "" set HG_BCC=C:\BORLAND\BCC55
    if /I "%1"=="XB55" if "%LIB_GUI%"    == "" set LIB_GUI=lib\xhb\bcc
    if /I "%1"=="XB55" if "%LIB_HRB%"    == "" set LIB_HRB=lib
    if /I "%1"=="XB55" if "%BIN_HRB%"    == "" set BIN_HRB=bin
-   if /I "%1"=="XB55" set HG_XB55=YES
 
    if /I "%1"=="XB58" if "%HG_HRB%"     == "" set HG_HRB=C:\XHBCC
    if /I "%1"=="XB58" if "%HG_BCC%"     == "" set HG_BCC=C:\BORLAND\BCC58
    if /I "%1"=="XB58" if "%LIB_GUI%"    == "" set LIB_GUI=lib\xhb\bcc
    if /I "%1"=="XB58" if "%LIB_HRB%"    == "" set LIB_HRB=lib
    if /I "%1"=="XB58" if "%BIN_HRB%"    == "" set BIN_HRB=bin
-   if /I "%1"=="XB58" set HG_XB58=YES
 
    if /I "%1"=="XM" if "%HG_HRB%"       == "" set HG_HRB=C:\XHMINGW
    if /I "%1"=="XM" if "%HG_MINGW%"     == "" set HG_MINGW=C:\XHMINGW\COMP\MINGW
    if /I "%1"=="XM" if "%LIB_GUI%"      == "" set LIB_GUI=lib\xhb\mingw
    if /I "%1"=="XM" if "%LIB_HRB%"      == "" set LIB_HRB=lib
    if /I "%1"=="XM" if "%BIN_HRB%"      == "" set BIN_HRB=bin
-   if /I "%1"=="XM" set HG_XM=YES
 
    if not exist %HG_ROOT%\distros\MakeExclude.txt goto ERROR2
 
@@ -653,7 +636,6 @@ REM TODO: Add manual's build here
 
 :XM
 
-echo on
    if /I not "%1"=="XM" goto IDE
    echo Copying xHarbour...
    set BASE_DISTRO_SUBDIR=xhmingw
